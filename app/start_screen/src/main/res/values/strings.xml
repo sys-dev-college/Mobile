@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">start_screen</string>
+    <string name="greeting">Готовы к первым шагам к улучшению своей формы?</string>
+    <string name="greeting_cont">Давайте начнём!</string>
+    <string name="greeting_cont_but">Продолжить</string>
+    <string name="reg_title">Регистрация</string>
+    <string name="reg_alternative">Я уже в системе</string>
+    <string name="reg_hint_name">Введите имя и фамилию</string>
+    <string name="reg_hint_email">Введите email</string>
+    <string name="reg_hint_password">Введите пароль</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
