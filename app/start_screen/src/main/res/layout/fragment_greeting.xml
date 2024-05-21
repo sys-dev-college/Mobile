@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/ic_start_background"
+    tools:context=".greeting">
+
+    <LinearLayout
+        android:id="@+id/linlay_greeting"
+        android:layout_width="350dp"
+        android:layout_height="450dp"
+        android:background="@drawable/shape_linearlayout_start_fragment"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_marginTop="150dp"
+        android:layout_marginStart="30dp"
+        >
+
+        <TextView
+            style="@style/TextStandartSettings"
+            android:layout_width="300dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="60dp"
+            android:maxLines="3"
+            android:text="@string/greeting"
+            android:textAlignment="center" />
+
+        <TextView
+            style="@style/TextStandartSettings"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="70dp"
+            android:text="@string/greeting_cont"
+            android:textAlignment="center" />
+
+        <Button
+            android:id="@+id/btn_continue"
+            style="@style/TextStandartSettings"
+            android:layout_width="280dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="40dp"
+            android:backgroundTint="@color/white"
+            android:text="@string/greeting_cont_but">
+
+        </Button>
+
+    </LinearLayout>
+
+</FrameLayout>
