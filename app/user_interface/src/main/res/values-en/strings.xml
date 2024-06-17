@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="app_name">user_interface</string>
-    <string name="fragment_detail_card1">"Name: "</string>
-    <string name="fragment_detail_card2">"Time: "</string>
-</resources>

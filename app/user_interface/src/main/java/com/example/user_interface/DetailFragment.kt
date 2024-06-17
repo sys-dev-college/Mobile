@@ -7,33 +7,42 @@ import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
+import com.example.user_interface.databinding.FragmentDetailCardBinding
 import com.example.user_interface.models.Task
 import com.example.user_interface.viewmodels.CardsViewModel
 
 class DetailFragment : Fragment() {
     private lateinit var viewModel: CardsViewModel
-    private lateinit var recyclerView: RecyclerView
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    //    private lateinit var recyclerView: RecyclerView
+    private lateinit var binding: FragmentDetailCardBinding
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         viewModel = ViewModelProvider(this).get(CardsViewModel::class.java)
 
-        val view = inflater.inflate(R.layout.fragment_detail_card, container, false)
+//        val view = inflater.inflate(R.layout.fragment_detail_card, container, false)
+        binding = FragmentDetailCardBinding.inflate(inflater, container, false)
+//        recyclerView = view.findViewById(R.id.fragment_detail_card_rv)
 
-        recyclerView = view.findViewById(R.id.recycler_view)
+        viewModel.tasks.observe(viewLifecycleOwner) { tasks ->
+            binding.fragmentDetailCardRv.adapter = TasksAdapter(tasks ?: emptyList())
+        }
 
-        viewModel.tasks.observe(viewLifecycleOwner, Observer { tasks ->
-            recyclerView.adapter = TasksAdapter(tasks ?: emptyList())
-        })
-
-        return view
+        return binding.root
     }
 
-    inner class TasksAdapter(private val tasks: List<Task>) : RecyclerView.Adapter<TasksAdapter.ViewHolder>() {
+    inner class TasksAdapter(private val tasks: List<Task>) :
+        RecyclerView.Adapter<TasksAdapter.ViewHolder>() {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-            return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_task, parent, false))
+            return ViewHolder(
+                LayoutInflater.from(parent.context).inflate(R.layout.item_task, parent, false)
+            )
         }
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -47,9 +56,10 @@ class DetailFragment : Fragment() {
                 itemView.findViewById<TextView>(R.id.name_textview).text = task.name
                 itemView.findViewById<TextView>(R.id.amount_textview).text = task.amount
 
-                itemView.findViewById<CheckBox>(R.id.checkbox).setOnCheckedChangeListener { _, isChecked ->
-                    // Update task as finished or not
-                }
+                itemView.findViewById<CheckBox>(R.id.checkbox)
+                    .setOnCheckedChangeListener { _, isChecked ->
+                        // Update task as finished or not
+                    }
             }
         }
     }

@@ -21,7 +21,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "Diploma"
 include(":app")
-include(":startscreen")
 include(":app:start_screen")
 include(":app:user_interface")
 include(":app:trener_interface")

@@ -7,6 +7,10 @@ android {
     namespace = "com.example.start_screen"
     compileSdk = 34
 
+    buildFeatures {
+        viewBinding = true
+    }
+
     defaultConfig {
         applicationId = "com.example.start_screen"
         minSdk = 24
