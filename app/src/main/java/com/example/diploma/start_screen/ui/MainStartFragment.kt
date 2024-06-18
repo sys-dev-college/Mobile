@@ -29,6 +29,7 @@ class MainStartFragment : Fragment() {
         binding.fragmentMainButton.setOnClickListener {
             val transaction = parentFragmentManager.beginTransaction()
             transaction.replace(R.id.main_fragment_container, FragmentRegistration())
+            transaction.addToBackStack(this.javaClass.name)
             transaction.commit()
         }
     }

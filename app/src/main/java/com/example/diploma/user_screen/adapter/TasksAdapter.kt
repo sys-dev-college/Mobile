@@ -25,7 +25,7 @@ internal class TasksAdapter : RecyclerView.Adapter<TasksAdapter.TaskViewHolder>(
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
         val item = items[position]
         with(holder.binding) {
-            liTaskItemText.text = item.msg
+            liTaskItemText.text = item.name
         }
     }
 

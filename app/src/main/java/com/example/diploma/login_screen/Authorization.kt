@@ -26,6 +26,7 @@ class Authorization : Fragment() {
         binding.btnContinue.setOnClickListener {
             val transaction = parentFragmentManager.beginTransaction()
             transaction.replace(R.id.main_fragment_container, UserScreenFragment())
+            transaction.addToBackStack(this.javaClass.name)
             transaction.commit()
         }
     }

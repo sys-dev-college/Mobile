@@ -1,6 +1,6 @@
 package com.example.diploma.user_screen.model
 
-data class TaskResponse(
+data class TaskListResponse(
     val id: String,
     val scheduled: String,
     val title: String,
@@ -9,13 +9,37 @@ data class TaskResponse(
     val assigner: UserNet,
     val user: UserNet,
     val complete: Boolean,
-)
+) {
+    companion object {
+
+        fun empty() =
+            TaskListResponse(
+                id = "",
+                scheduled = "",
+                title = "",
+                type = 0,
+                tasks = emptyList(),
+                assigner = UserNet.empty(),
+                user = UserNet.empty(),
+                complete = false
+            )
+    }
+}
 
 data class UserNet(
     val id: String,
     val user_name: String,
     val email: String,
-)
+) {
+    companion object {
+
+        fun empty() = UserNet(
+            id = "",
+            user_name = "",
+            email = ""
+        )
+    }
+}
 
 data class TaskNet(
     val id: String,

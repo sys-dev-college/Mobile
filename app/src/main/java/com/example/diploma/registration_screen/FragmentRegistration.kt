@@ -26,6 +26,7 @@ class FragmentRegistration : Fragment() {
         binding.fragmentRegistrationLoginButton.setOnClickListener {
             val transaction = parentFragmentManager.beginTransaction()
             transaction.replace(R.id.main_fragment_container, Authorization())
+            transaction.addToBackStack(this.javaClass.name)
             transaction.commit()
         }
     }

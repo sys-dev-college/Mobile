@@ -16,7 +16,7 @@ import java.util.Date
 class UserScreenFragment : Fragment() {
 
     private lateinit var binding: FragmentUserScreenBinding
-    private val onResponse = MutableLiveData(TaskListResponse(emptyList()))
+    private val onResponse = MutableLiveData(TaskListResponse.empty())
     private lateinit var adapter: TasksAdapter
 
     override fun onCreateView(
@@ -34,7 +34,7 @@ class UserScreenFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         onResponse.observe(viewLifecycleOwner) {
-            adapter.items = it.detail
+            adapter.items = it.tasks
         }
 
         val date = Date()

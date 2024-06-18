@@ -2,7 +2,7 @@ package com.example.diploma.user_screen.retrofit
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import com.example.diploma.user_screen.model.TaskResponse
+import com.example.diploma.user_screen.model.TaskListResponse
 import com.example.diploma.user_screen.model.TasksListReq
 import com.example.diploma.user_screen.model.UserCred
 import com.example.diploma.user_screen.model.UserCredResponse
@@ -16,25 +16,30 @@ object RetrofitClient {
 
     private var retrofit: Retrofit? = null
 
-    fun getTasks(baseUrl: String, date: String, onResponse: MutableLiveData<List<TaskResponse>>) {
+    fun getTasks(baseUrl: String, date: String, onResponse: MutableLiveData<TaskListResponse>) {
         val retrofit = getRetrofit(baseUrl)
         val api = retrofit.create(Api::class.java)
-        val call: Call<List<TaskResponse>> = api.getTasks(TasksListReq(date), "Bearer" )
-        call.enqueue(object : Callback<List<TaskResponse>> {
+        val call: Call<TaskListResponse> = api.getTasks(TasksListReq(date), "Bearer")
+        call.enqueue(object : Callback<TaskListResponse> {
             override fun onResponse(
-                call: Call<List<TaskResponse>>,
-                response: Response<List<TaskResponse>>
+                call: Call<TaskListResponse>,
+                response: Response<TaskListResponse>
             ) {
                 onResponse.postValue(response.body())
             }
 
-            override fun onFailure(call: Call<List<TaskResponse>>, t: Throwable) {
-                Log.d("QWE", "onFailure: "+t.message)
+            override fun onFailure(call: Call<TaskListResponse>, t: Throwable) {
+                Log.d("QWE", "onFailure: " + t.message)
             }
         })
     }
 
-    fun usersLogin(baseUrl: String, email: String, password: String, onResponse: MutableLiveData<UserCredResponse>) {
+    fun usersLogin(
+        baseUrl: String,
+        email: String,
+        password: String,
+        onResponse: MutableLiveData<UserCredResponse>
+    ) {
         val retrofit = getRetrofit(baseUrl)
         val api = retrofit.create(Api::class.java)
         val call: Call<UserCredResponse> = api.userAuth(UserCred(email, password))
@@ -47,7 +52,7 @@ object RetrofitClient {
             }
 
             override fun onFailure(call: Call<UserCredResponse>, t: Throwable) {
-                Log.d("QWE", "onFailure: "+t.message)
+                Log.d("QWE", "onFailure: " + t.message)
             }
         })
     }
