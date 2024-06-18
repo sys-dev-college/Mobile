@@ -3,4 +3,5 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFF8F8</color>
     <color name="LinearLayoutStartFragment">#E6BDBDBD</color>
+    <color name="hintColor">#6a6a6a</color>
 </resources>

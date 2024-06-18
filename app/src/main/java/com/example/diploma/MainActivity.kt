@@ -1,19 +1,27 @@
 package com.example.diploma
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
+import android.os.Handler
+import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import com.example.diploma.splash_screen.SplashFragment
+import com.example.diploma.start_screen.ui.MainStartFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.main_fragment_container, MainStartFragment())
+                .replace(R.id.main_fragment_container, SplashFragment())
                 .commit()
+            Handler(Looper.getMainLooper()).postDelayed({
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.main_fragment_container, MainStartFragment())
+                    .commit()
+            }, 5000L)
         }
     }
 }

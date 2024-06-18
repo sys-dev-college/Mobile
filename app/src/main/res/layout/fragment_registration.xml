@@ -1,14 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FragmentRegistration">
+    android:background="@drawable/ic_start_background">
+
+    <LinearLayout
+        android:id="@+id/linlay_greeting"
+        android:layout_width="350dp"
+        android:layout_height="450dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="150dp"
+        android:background="@drawable/shape_linearlayout_start_fragment"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="220dp"
+            android:layout_height="40dp"
+            android:fontFamily="@font/rubik_regular"
+            android:maxLines="3"
+            android:text="@string/reg_title"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="30sp" />
+
+        <EditText
+            android:id="@+id/name"
+            android:layout_width="230dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/shape_edit_text_startscreen"
+            android:hint="@string/reg_hint_name"
+            android:inputType="text"
+            android:textColorHint="@color/hintColor" />
 
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        <EditText
+            android:id="@+id/email"
+            android:layout_width="230dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/shape_edit_text_startscreen"
+            android:hint="@string/reg_hint_email"
+            android:inputType="textEmailAddress"
+            android:textColorHint="@color/hintColor" />
+
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="230dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/shape_edit_text_startscreen"
+            android:hint="@string/reg_hint_password"
+            android:inputType="textPassword"
+            android:textColorHint="@color/hintColor" />
+
+        <EditText
+            android:id="@+id/telegram_id"
+            android:layout_width="230dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/shape_edit_text_startscreen"
+            android:hint="@string/reg_hint_telegram"
+            android:inputType="textPassword"
+            android:textColorHint="@color/hintColor" />
+
+        <Button
+            android:id="@+id/btn_continue"
+            style="@style/TextStandartSettings"
+            android:layout_width="280dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="50dp"
+            android:backgroundTint="@color/white"
+            android:text="@string/greeting_cont_but"
+            android:textColorHint="@color/hintColor"/>
+
+        <TextView
+            android:id="@+id/fragment_registration_login_button"
+            android:layout_width="150dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/rubik_regular"
+            android:text="@string/reg_alternative"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="15sp" />
+
+    </LinearLayout>
 
 </FrameLayout>

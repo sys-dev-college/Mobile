@@ -5,6 +5,8 @@
     android:layout_height="match_parent"
     tools:context=".FragmentStart">
 
+
+
     <TextView
         android:layout_width="300dp"
         android:layout_height="100dp"

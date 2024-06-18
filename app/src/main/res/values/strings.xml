@@ -4,4 +4,18 @@
     <string name="start_frag_greeting_cont">Давайте начнём!</string>
     <string name="start_frag_greeting_but">Продолжить</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="greeting">Готовы к первым шагам к улучшению своей формы?</string>
+    <string name="greeting_cont">Давайте начнём!</string>
+    <string name="greeting_cont_but">Продолжить</string>
+    <string name="reg_title">Регистрация</string>
+    <string name="reg_alternative">Я уже в системе</string>
+    <string name="reg_hint_name">Введите имя и фамилию</string>
+    <string name="reg_hint_email">Введите email</string>
+    <string name="reg_hint_password">Введите пароль</string>
+    <string name="auth_title">Авторизация</string>
+    <string name="reg_hint_telegram">Введите id telegram</string>
+
+    <string name="fragment_main_text">Начать</string>
+    <string name="fragment_main_title_text">Готовы к первым\nшагам к улучшению\nсвоей формы?</string>
+    <string name="fragment_main_subtitle_text">Давайте начнём!</string>
 </resources>
