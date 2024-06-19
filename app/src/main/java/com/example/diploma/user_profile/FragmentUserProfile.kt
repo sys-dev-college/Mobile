@@ -1,5 +1,7 @@
 package com.example.diploma.user_profile
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +17,8 @@ import com.example.diploma.user_screen.retrofit.RetrofitClient
 class FragmentUserProfile : Fragment() {
     private lateinit var binding: FragmentUserProfileBinding
     private val onResponse = MutableLiveData(UserResetResponse(false))
+    private val prefs: SharedPreferences
+        get() = requireActivity().getPreferences(Context.MODE_PRIVATE)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,6 +43,22 @@ class FragmentUserProfile : Fragment() {
         }
 
         binding.fragmentUserProfileBtnLogout.setOnClickListener{
+//            val transaction = parentFragmentManager.beginTransaction()
+//            transaction.replace(R.id.main_fragment_container, MainStartFragment())
+//            transaction.addToBackStack(this.javaClass.name)
+//                .commit()
+//            val editor = prefs.edit()
+            val editor = prefs.edit()
+            // below line will clear
+            // the data in shared prefs.
+            editor.clear()
+
+            // below line will apply empty
+            // data to shared prefs.
+            editor.apply()
+
+            // starting mainactivity after
+            // clearing values in shared preferences.
             val transaction = parentFragmentManager.beginTransaction()
             transaction.replace(R.id.main_fragment_container, MainStartFragment())
             transaction.addToBackStack(this.javaClass.name)
