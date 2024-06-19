@@ -50,7 +50,6 @@ class UserScreenFragment : Fragment() {
 
     private fun getTasks(year: Int, month: Int, dayOfMonth: Int) {
         RetrofitClient.getTasks(
-            baseUrl = "https://it-fits.ru",
             date = String.format("%s-%s-%s", year, month, dayOfMonth),
             onResponse = onResponse
         )

@@ -1,12 +1,11 @@
 package com.example.diploma.user_screen.model
 
-class UserCred (email: String, password: String) {
-    val email: String
-        get() {
-            TODO()
-        }
-    val password : String
-        get() {
-            TODO()
-        }
-}
+import com.google.gson.annotations.SerializedName
+
+data class UserCred(
+    @SerializedName("email")
+    val email: String,
+
+    @SerializedName("password")
+    val password: String
+)
