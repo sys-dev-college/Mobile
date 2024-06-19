@@ -12,16 +12,21 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.util.UUID
+
+private const val BASE_URL = "http://it-fits.ru"
 
 object RetrofitClient {
 
-    private var retrofit: Retrofit? = null
+    private fun getApi(): Api {
+        val retrofit = Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+        return retrofit.create(Api::class.java)
+    }
 
-    fun getTasks(baseUrl: String, date: String, onResponse: MutableLiveData<TaskListResponse>) {
-        val retrofit = getRetrofit(baseUrl)
-        val api = retrofit.create(Api::class.java)
-        val call: Call<TaskListResponse> = api.getTasks(TasksListReq(date), "Bearer")
+    fun getTasks(date: String, onResponse: MutableLiveData<TaskListResponse>) {
+        val call: Call<TaskListResponse> = getApi().getTasks(TasksListReq(date), "Bearer")
         call.enqueue(object : Callback<TaskListResponse> {
             override fun onResponse(
                 call: Call<TaskListResponse>,
@@ -36,15 +41,12 @@ object RetrofitClient {
         })
     }
 
-    fun usersLogin(
-        baseUrl: String,
+    fun loginUser(
         email: String,
         password: String,
         onResponse: MutableLiveData<UserCredResponse>
     ) {
-        val retrofit = getRetrofit(baseUrl)
-        val api = retrofit.create(Api::class.java)
-        val call: Call<UserCredResponse> = api.userAuth(UserCred(email, password))
+        val call: Call<UserCredResponse> = getApi().userAuth(UserCred(email, password))
         call.enqueue(object : Callback<UserCredResponse> {
             override fun onResponse(
                 call: Call<UserCredResponse>,
@@ -65,9 +67,7 @@ object RetrofitClient {
     userId: String,
     onResponse: MutableLiveData<UserFullResponse>
     ) {
-        val retrofit = getRetrofit(baseUrl)
-        val api = retrofit.create(Api::class.java)
-        val call: Call<UserFullResponse> = api.getUserById(userKey, userId)
+        val call: Call<UserFullResponse> = getApi().getUserById(userKey, userId)
         call.enqueue(object : Callback<UserFullResponse> {
             override fun onResponse(
                 call: Call<UserFullResponse>,
@@ -80,15 +80,5 @@ object RetrofitClient {
                 Log.d("QWE", "onFailure: " + t.message)
             }
         })
-    }
-
-    private fun getRetrofit(baseUrl: String): Retrofit {
-        if (retrofit == null) {
-            retrofit = Retrofit.Builder()
-                .baseUrl(baseUrl)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-        }
-        return retrofit!!
     }
 }
