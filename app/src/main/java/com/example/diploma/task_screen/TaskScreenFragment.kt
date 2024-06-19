@@ -15,6 +15,8 @@ import com.example.diploma.MainActivity.Companion.USER_TOKEN
 import com.example.diploma.databinding.FragmentTaskScreenBinding
 import com.example.diploma.user_screen.model.TaskListResponse
 import com.example.diploma.user_screen.retrofit.RetrofitClient
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class TaskScreenFragment : Fragment() {
 
@@ -44,6 +46,17 @@ class TaskScreenFragment : Fragment() {
                     val item = response.find { model ->
                         model.id == id
                     }
+                    binding.fragmentTaskViewNameValue.text = item?.title
+                    val dateTimeString = item?.scheduled?.substring(0, 23)  // Обрезаем строку до миллисекунд
+// Определяем формат входной строки
+                    val inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS")
+// Определяем формат выходной строки (только часы и минуты)
+                    val outputFormatter = DateTimeFormatter.ofPattern("HH:mm")
+// Преобразуем строку в LocalDateTime объект
+                    val dateTime = LocalDateTime.parse(dateTimeString, inputFormatter)
+// Преобразуем LocalDateTime объект обратно в строку в нужном формате
+                    val timeString = dateTime.format(outputFormatter)
+                    binding.fragmentTaskViewTimeValue.text = timeString
                     item?.let {
                         adapter.items = item.tasks
                     }

@@ -2,6 +2,7 @@ package com.example.diploma
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -54,11 +55,12 @@ class MainActivity : AppCompatActivity() {
                 R.id.user_profile -> replaceUserFragment(FragmentUserProfile())
 
                 else -> {
-
                 }
             }
             true
         }
+        makeNavigationGone()
+        window.statusBarColor = Color.parseColor("#C8C7C7")
     }
 
     fun makeNavigationVisible() {

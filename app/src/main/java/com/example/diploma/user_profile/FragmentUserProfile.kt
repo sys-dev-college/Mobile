@@ -32,7 +32,11 @@ class FragmentUserProfile : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.fragmentUserProfileBtnReset.setOnClickListener {
-            resetUser("")
+            /*resetUser()*/
+            val transaction = parentFragmentManager.beginTransaction()
+            transaction.replace(R.id.main_fragment_container, MainStartFragment())
+            transaction.addToBackStack(this.javaClass.name)
+                .commit()
         }
 
         binding.fragmentUserProfileBtnAbout.setOnClickListener {
@@ -43,11 +47,6 @@ class FragmentUserProfile : Fragment() {
         }
 
         binding.fragmentUserProfileBtnLogout.setOnClickListener{
-//            val transaction = parentFragmentManager.beginTransaction()
-//            transaction.replace(R.id.main_fragment_container, MainStartFragment())
-//            transaction.addToBackStack(this.javaClass.name)
-//                .commit()
-//            val editor = prefs.edit()
             val editor = prefs.edit()
             // below line will clear
             // the data in shared prefs.
@@ -57,7 +56,7 @@ class FragmentUserProfile : Fragment() {
             // data to shared prefs.
             editor.apply()
 
-            // starting mainactivity after
+            // starting after
             // clearing values in shared preferences.
             val transaction = parentFragmentManager.beginTransaction()
             transaction.replace(R.id.main_fragment_container, MainStartFragment())
