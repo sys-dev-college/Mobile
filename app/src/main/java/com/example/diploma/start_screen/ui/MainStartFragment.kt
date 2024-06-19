@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.example.diploma.MainActivity
 import com.example.diploma.R
 import com.example.diploma.databinding.FragmentMainBinding
 import com.example.diploma.registration_screen.FragmentRegistration
@@ -20,6 +21,7 @@ class MainStartFragment : Fragment() {
     ): View? {
 
         binding = FragmentMainBinding.inflate(inflater, container, false)
+        (requireActivity() as MainActivity).makeNavigationGone()
         return binding.root
     }
 
