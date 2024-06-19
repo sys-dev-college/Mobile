@@ -4,11 +4,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.diploma.databinding.LiTaskItemBinding
-import com.example.diploma.user_screen.model.TaskNet
+import com.example.diploma.user_screen.model.TaskListResponse
 
 internal class TasksAdapter : RecyclerView.Adapter<TasksAdapter.TaskViewHolder>() {
 
-    var items: List<TaskNet> = emptyList()
+    var items: List<TaskListResponse> = emptyList()
         set(value) {
             field = value
             notifyDataSetChanged()
@@ -25,7 +25,7 @@ internal class TasksAdapter : RecyclerView.Adapter<TasksAdapter.TaskViewHolder>(
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
         val item = items[position]
         with(holder.binding) {
-            liTaskItemText.text = item.name
+            liTaskItemText.text = item.title
         }
     }
 

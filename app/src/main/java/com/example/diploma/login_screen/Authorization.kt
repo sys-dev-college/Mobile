@@ -1,5 +1,7 @@
 package com.example.diploma.login_screen
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -9,16 +11,20 @@ import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
+import com.example.diploma.MainActivity.Companion.USER_EMAIL
+import com.example.diploma.MainActivity.Companion.USER_ID
+import com.example.diploma.MainActivity.Companion.USER_TOKEN
 import com.example.diploma.R
 import com.example.diploma.databinding.FragmentAuthorizationBinding
 import com.example.diploma.user_screen.UserScreenFragment
 import com.example.diploma.user_screen.model.UserCredResponse
+import com.example.diploma.user_screen.model.me.MeResponse
 import com.example.diploma.user_screen.retrofit.RetrofitClient
 
 class Authorization : Fragment() {
 
     companion object {
-        private const val DEBOUNCE = 200L
+        private const val DEBOUNCE = 300L
         private const val EMAIL_REGEX = "^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6})*\$"
         private const val PASSWORD_REGEX = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,}\$"
     }
@@ -31,9 +37,12 @@ class Authorization : Fragment() {
     private val isEmailMLD = MutableLiveData(false)
     private val isButtonActiveMLD = MutableLiveData(false)
 
-    private val onResponse = MutableLiveData(UserCredResponse.empty())
+    private val onResponse = MutableLiveData<UserCredResponse>()
+    private val onMeResponse = MutableLiveData<MeResponse>()
 
     private val handler = Handler(Looper.getMainLooper())
+    private val prefs: SharedPreferences
+        get() = requireActivity().getPreferences(Context.MODE_PRIVATE)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -73,7 +82,7 @@ class Authorization : Fragment() {
         }
 
         isButtonActiveMLD.observe(viewLifecycleOwner) {
-            binding.btnContinue.isEnabled = /*it*/true
+            binding.btnContinue.isEnabled = it
         }
         isEmailMLD.observe(viewLifecycleOwner) {
             isButtonActiveMLD.value = it && isPasswordMLD.value ?: false
@@ -83,7 +92,19 @@ class Authorization : Fragment() {
         }
 
         onResponse.observe(viewLifecycleOwner) {
-            navigateToUserScreen()
+            it?.let {
+                if (it.accessToken.isNotBlank()) {
+                    prefs.edit().putString(USER_TOKEN, it.accessToken).apply()
+                    RetrofitClient.getMe(it.accessToken, onMeResponse)
+                }
+            }
+        }
+        onMeResponse.observe(viewLifecycleOwner) {
+            it?.let {
+                prefs.edit().putString(USER_ID, it.id).apply()
+                prefs.edit().putString(USER_EMAIL, it.email).apply()
+                navigateToUserScreen()
+            }
         }
     }
 

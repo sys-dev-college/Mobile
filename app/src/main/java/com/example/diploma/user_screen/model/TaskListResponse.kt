@@ -1,50 +1,55 @@
 package com.example.diploma.user_screen.model
 
-data class TaskListResponse(
-    val id: String,
-    val scheduled: String,
-    val title: String,
-    val type: Int,
-    val tasks: List<TaskNet>,
-    val assigner: UserNet,
-    val user: UserNet,
-    val complete: Boolean,
-) {
-    companion object {
+import com.google.gson.annotations.SerializedName
 
-        fun empty() =
-            TaskListResponse(
-                id = "",
-                scheduled = "",
-                title = "",
-                type = 0,
-                tasks = emptyList(),
-                assigner = UserNet.empty(),
-                user = UserNet.empty(),
-                complete = false
-            )
-    }
-}
+data class TaskListResponse(
+    @SerializedName("id")
+    val id: String,
+
+    @SerializedName("scheduled")
+    val scheduled: String,
+
+    @SerializedName("title")
+    val title: String,
+
+    @SerializedName("tasks")
+    val tasks: List<TaskNet>,
+
+    @SerializedName("assigner")
+    val assigner: UserNet,
+
+    @SerializedName("user")
+    val user: UserNet,
+
+    @SerializedName("complete")
+    val complete: Boolean,
+)
 
 data class UserNet(
+    @SerializedName("id")
     val id: String,
-    val user_name: String,
-    val email: String,
-) {
-    companion object {
 
-        fun empty() = UserNet(
-            id = "",
-            user_name = "",
-            email = ""
-        )
-    }
-}
+    @SerializedName("name")
+    val name: String,
+
+    @SerializedName("email")
+    val email: String,
+)
 
 data class TaskNet(
+    @SerializedName("id")
     val id: String,
+
+    @SerializedName("name")
     val name: String,
+
+    @SerializedName("amount")
+    val amount: Int,
+
+    @SerializedName("unit")
     val unit: String,
+
+    @SerializedName("completed")
     val completed: Boolean,
 )
 

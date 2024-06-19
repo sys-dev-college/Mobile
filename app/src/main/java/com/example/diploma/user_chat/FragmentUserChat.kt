@@ -38,7 +38,6 @@ class FragmentUserChat : Fragment() {
 
     private fun retrieveUser(userKey: String, userId: String) {
         RetrofitClient.retrieveUser(
-            baseUrl = "https://it-fits.ru",
             userKey = userKey,
             userId = userId,
             onResponse = onResponse

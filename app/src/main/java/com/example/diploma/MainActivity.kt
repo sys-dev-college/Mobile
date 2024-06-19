@@ -18,6 +18,12 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
+    companion object {
+        const val USER_ID = "USER_ID"
+        const val USER_TOKEN = "USER_TOKEN"
+        const val USER_EMAIL = "USER_EMAIL"
+    }
+
     protected lateinit var prefs: SharedPreferences
     private lateinit var binding: ActivityMainBinding
 

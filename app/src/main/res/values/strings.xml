@@ -25,6 +25,18 @@
     <string name="fragment_user_profile_btn_reset">Сбросить пароль</string>
     <string name="fragment_user_profile_btn_about">О приложении</string>
     <string name="fragment_user_profile_btn_logout">Выйти из аккаунта</string>
-    <string name="fragment_authorization_name_error">Должно содержать только РУССКИЕ буквы и быть из двух слов</string>
+    <string name="fragment_authorization_name_error">Некорректный email</string>
     <string name="fragment_authorization_password_error">Пароль должен содержать только латинские буквы и цифры</string>
+    <string name="fragmant_authorization_email_text">Введите email</string>
+    <string name="fragmant_authorization_password_text">Введите пароль</string>
+
+    <string name="fragmant_registration_name_text">Введите имя и фамилию</string>
+    <string name="fragmant_registration_email_text">Введите email</string>
+    <string name="fragmant_registration_password_text">Введите пароль</string>
+    <string name="fragmant_registration_telegram_text">Введите id Telegram</string>
+    <string name="fragment_registration_name_error">Введите имя и фамилию</string>
+    <string name="fragment_registration_email_error">Некорректный email</string>
+    <string name="fragment_registration_password_error">Не менее 6 символов, латиница и цифры</string>
+    <string name="fragment_registration_telegram_error">Введите Telegram id</string>
+
 </resources>

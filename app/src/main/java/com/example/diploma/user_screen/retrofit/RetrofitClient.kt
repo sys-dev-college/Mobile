@@ -9,36 +9,58 @@ import com.example.diploma.user_screen.model.UserCred
 import com.example.diploma.user_screen.model.UserCredResponse
 import com.example.diploma.user_screen.model.UserFullResponse
 import com.example.diploma.user_screen.model.UserResetResponse
+import com.example.diploma.user_screen.model.me.MeResponse
+import com.example.diploma.user_screen.model.registration.RegistrationRes
+import com.example.diploma.user_screen.model.registration.RegistrationsReq
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 
 private const val BASE_URL = "http://it-fits.ru"
 
 object RetrofitClient {
 
     private fun getApi(): Api {
+        val interceptor = HttpLoggingInterceptor().apply {
+            this.level = HttpLoggingInterceptor.Level.BODY
+        }
+        val client = OkHttpClient.Builder().apply {
+            this.addInterceptor(interceptor)
+                .connectTimeout(3, TimeUnit.SECONDS)
+                .readTimeout(20, TimeUnit.SECONDS)
+                .writeTimeout(25, TimeUnit.SECONDS)
+        }.build()
         val retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
+            .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         return retrofit.create(Api::class.java)
     }
 
-    fun getTasks(date: String, onResponse: MutableLiveData<TaskListResponse>) {
-        val call: Call<TaskListResponse> = getApi().getTasks(TasksListReq(date), "Bearer")
-        call.enqueue(object : Callback<TaskListResponse> {
+    fun getTasks(
+        date: String,
+        userToken: String,
+        userId: String,
+        onResponse: MutableLiveData<List<TaskListResponse>>
+    ) {
+        val call: Call<List<TaskListResponse>> =
+            getApi().getTasks(TasksListReq(date, userId), userToken.makeToken())
+        call.enqueue(object : Callback<List<TaskListResponse>> {
             override fun onResponse(
-                call: Call<TaskListResponse>,
-                response: Response<TaskListResponse>
+                call: Call<List<TaskListResponse>>,
+                response: Response<List<TaskListResponse>>
             ) {
                 onResponse.postValue(response.body())
             }
 
-            override fun onFailure(call: Call<TaskListResponse>, t: Throwable) {
-                Log.d("QWE", "onFailure: " + t.message)
+            override fun onFailure(call: Call<List<TaskListResponse>>, t: Throwable) {
+                makeLogs(t)
             }
         })
     }
@@ -58,16 +80,63 @@ object RetrofitClient {
             }
 
             override fun onFailure(call: Call<UserCredResponse>, t: Throwable) {
-                Log.d("QWE", "onFailure: " + t.message)
+                makeLogs(t)
             }
         })
     }
 
-    fun retrieveUser (
-    baseUrl: String,
-    userKey: String,
-    userId: String,
-    onResponse: MutableLiveData<UserFullResponse>
+    fun registerUser(
+        email: String,
+        password: String,
+        firstName: String,
+        lastName: String,
+        telegramUrl: String,
+        onResponse: MutableLiveData<RegistrationRes>
+    ) {
+        val call: Call<RegistrationRes> = getApi().userRegister(
+            RegistrationsReq(
+                email = email,
+                password = password,
+                firstName = firstName,
+                lastName = lastName,
+                telegramUrl = telegramUrl
+            )
+        )
+        call.enqueue(object : Callback<RegistrationRes> {
+            override fun onResponse(
+                call: Call<RegistrationRes>,
+                response: Response<RegistrationRes>
+            ) {
+                onResponse.postValue(response.body())
+            }
+
+            override fun onFailure(call: Call<RegistrationRes>, t: Throwable) {
+                makeLogs(t)
+            }
+        })
+    }
+
+    fun getMe(
+        userToken: String,
+        onResponse: MutableLiveData<MeResponse>
+    ) {
+        val call: Call<MeResponse> = getApi().getMe(userToken.makeToken())
+        call.enqueue(object : Callback<MeResponse> {
+            override fun onResponse(call: Call<MeResponse>, response: Response<MeResponse>) {
+                onResponse.postValue(response.body())
+            }
+
+            override fun onFailure(call: Call<MeResponse>, t: Throwable) {
+                makeLogs(t)
+            }
+
+        })
+    }
+
+    fun retrieveUser(
+        userKey: String,
+        userId: String,
+        onResponse: MutableLiveData<UserFullResponse>
     ) {
         val call: Call<UserFullResponse> = getApi().getUserById(userKey, userId)
         call.enqueue(object : Callback<UserFullResponse> {
@@ -79,9 +148,17 @@ object RetrofitClient {
             }
 
             override fun onFailure(call: Call<UserFullResponse>, t: Throwable) {
-                Log.d("QWE", "onFailure: " + t.message)
+                makeLogs(t)
             }
         })
+    }
+
+    private fun makeLogs(t: Throwable) {
+        Log.d("QWE", "onFailure: " + t.message)
+    }
+
+    private fun String.makeToken(): String {
+        return String.format("Bearer %s", this)
     }
 
     fun resetUser(
