@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
+import com.example.diploma.MainActivity
 import com.example.diploma.MainActivity.Companion.USER_EMAIL
 import com.example.diploma.MainActivity.Companion.USER_ID
 import com.example.diploma.MainActivity.Companion.USER_TOKEN
@@ -37,8 +38,8 @@ class Authorization : Fragment() {
     private val isEmailMLD = MutableLiveData(false)
     private val isButtonActiveMLD = MutableLiveData(false)
 
-    private val onResponse = MutableLiveData<UserCredResponse>()
-    private val onMeResponse = MutableLiveData<MeResponse>()
+    private val onResponse = MutableLiveData<UserCredResponse?>()
+    private val onMeResponse = MutableLiveData<MeResponse?>()
 
     private val handler = Handler(Looper.getMainLooper())
     private val prefs: SharedPreferences
@@ -50,6 +51,7 @@ class Authorization : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentAuthorizationBinding.inflate(inflater, container, false)
+        (requireActivity() as MainActivity).makeNavigationGone()
         return binding.root
     }
 
@@ -106,6 +108,14 @@ class Authorization : Fragment() {
                 navigateToUserScreen()
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        onResponse.removeObservers(viewLifecycleOwner)
+        onResponse.value = null
+        onMeResponse.removeObservers(viewLifecycleOwner)
+        onMeResponse.value = null
     }
 
     private fun onEmailChange(text: String) {

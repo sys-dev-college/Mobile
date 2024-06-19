@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.diploma.databinding.ActivityMainBinding
@@ -22,9 +23,11 @@ class MainActivity : AppCompatActivity() {
         const val USER_ID = "USER_ID"
         const val USER_TOKEN = "USER_TOKEN"
         const val USER_EMAIL = "USER_EMAIL"
+        const val TASK_ID = "TASK_ID"
+        const val TASK_DATE = "TASK_DATE"
     }
 
-    protected lateinit var prefs: SharedPreferences
+    private lateinit var prefs: SharedPreferences
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,12 +44,8 @@ class MainActivity : AppCompatActivity() {
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.main_fragment_container, MainStartFragment())
                     .commit()
-            }, 5L)
+            }, 5000L)
         }
-
-
-
-//        replaceUserFragment(UserScreenFragment())
 
         binding.bottomNavigationView.setOnItemSelectedListener {
             when (it.itemId) {
@@ -62,10 +61,19 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    fun makeNavigationVisible() {
+        binding.bottomNavigationView.visibility = View.VISIBLE
+    }
+
+    fun makeNavigationGone() {
+        binding.bottomNavigationView.visibility = View.GONE
+    }
+
     private fun replaceUserFragment(fragment: Fragment) {
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.main_fragment_container, fragment)
+        fragmentTransaction.addToBackStack(this.javaClass.name)
         fragmentTransaction.commit()
     }
 }

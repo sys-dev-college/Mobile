@@ -8,16 +8,21 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
+import com.example.diploma.MainActivity
+import com.example.diploma.MainActivity.Companion.TASK_DATE
+import com.example.diploma.MainActivity.Companion.TASK_ID
 import com.example.diploma.MainActivity.Companion.USER_ID
 import com.example.diploma.MainActivity.Companion.USER_TOKEN
+import com.example.diploma.R
 import com.example.diploma.databinding.FragmentUserScreenBinding
+import com.example.diploma.task_screen.TaskScreenFragment
 import com.example.diploma.user_screen.adapter.TasksAdapter
 import com.example.diploma.user_screen.model.TaskListResponse
 import com.example.diploma.user_screen.retrofit.RetrofitClient
 import java.util.Date
 
 
-class UserScreenFragment : Fragment() {
+class UserScreenFragment : Fragment(), TasksAdapter.OnClickListener {
 
     private lateinit var binding: FragmentUserScreenBinding
     private val onResponse = MutableLiveData<List<TaskListResponse>>()
@@ -32,7 +37,9 @@ class UserScreenFragment : Fragment() {
     ): View? {
         binding = FragmentUserScreenBinding.inflate(inflater, container, false)
         adapter = TasksAdapter()
+        adapter.listener = this
         binding.fragmentUserScreenRv.adapter = adapter
+        (requireActivity() as MainActivity).makeNavigationVisible()
         return binding.root
     }
 
@@ -49,6 +56,7 @@ class UserScreenFragment : Fragment() {
         val date = Date()
         binding.fragmentUserScreenCalendar.date = date.time
         binding.fragmentUserScreenCalendar.setOnDateChangeListener { _, year, month, dayOfMonth ->
+            adapter.items = emptyList()
             getTasks(
                 year = year,
                 month = month + 1,
@@ -65,12 +73,22 @@ class UserScreenFragment : Fragment() {
             true -> "0$month"
             false -> "$month"
         }
+        val date = String.format("%s-%s-%s", year, monthString, dayOfMonth)
+        prefs.edit().putString(TASK_DATE, date).apply()
 
         RetrofitClient.getTasks(
-            date = String.format("%s-%s-%s", year, monthString, dayOfMonth),
+            date = date,
             userToken = token,
             userId = id,
             onResponse = onResponse
         )
+    }
+
+    override fun onClick(model: TaskListResponse) {
+        prefs.edit().putString(TASK_ID, model.id).apply()
+        val transaction = parentFragmentManager.beginTransaction()
+        transaction.replace(R.id.main_fragment_container, TaskScreenFragment())
+        transaction.addToBackStack(this.javaClass.name)
+        transaction.commit()
     }
 }

@@ -68,7 +68,7 @@ object RetrofitClient {
     fun loginUser(
         email: String,
         password: String,
-        onResponse: MutableLiveData<UserCredResponse>
+        onResponse: MutableLiveData<UserCredResponse?>
     ) {
         val call: Call<UserCredResponse> = getApi().userAuth(UserCred(email, password))
         call.enqueue(object : Callback<UserCredResponse> {
@@ -118,7 +118,7 @@ object RetrofitClient {
 
     fun getMe(
         userToken: String,
-        onResponse: MutableLiveData<MeResponse>
+        onResponse: MutableLiveData<MeResponse?>
     ) {
         val call: Call<MeResponse> = getApi().getMe(userToken.makeToken())
         call.enqueue(object : Callback<MeResponse> {
@@ -164,7 +164,7 @@ object RetrofitClient {
     fun resetUser(
         email: String,
         onResponse: MutableLiveData<UserResetResponse>
-    ){
+    ) {
         val call: Call<UserResetResponse> = getApi().getReset("Bearer", EmailReq(email))
         call.enqueue(object : Callback<UserResetResponse> {
             override fun onResponse(

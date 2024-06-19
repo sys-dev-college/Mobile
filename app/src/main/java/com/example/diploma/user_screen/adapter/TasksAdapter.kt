@@ -8,6 +8,8 @@ import com.example.diploma.user_screen.model.TaskListResponse
 
 internal class TasksAdapter : RecyclerView.Adapter<TasksAdapter.TaskViewHolder>() {
 
+    var listener: OnClickListener? = null
+
     var items: List<TaskListResponse> = emptyList()
         set(value) {
             field = value
@@ -26,8 +28,15 @@ internal class TasksAdapter : RecyclerView.Adapter<TasksAdapter.TaskViewHolder>(
         val item = items[position]
         with(holder.binding) {
             liTaskItemText.text = item.title
+            liTaskItemText.setOnClickListener {
+                listener?.onClick(item)
+            }
         }
     }
 
     class TaskViewHolder(val binding: LiTaskItemBinding) : RecyclerView.ViewHolder(binding.root)
+
+    interface OnClickListener {
+        fun onClick(model: TaskListResponse)
+    }
 }
