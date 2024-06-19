@@ -4,12 +4,15 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.example.diploma.splash_screen.SplashFragment
 import com.example.diploma.start_screen.ui.MainStartFragment
+import com.example.diploma.user_chat.FragmentUserChat
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -23,5 +26,12 @@ class MainActivity : AppCompatActivity() {
                     .commit()
             }, 5000L)
         }
+    }
+
+    private fun replaceUserFragment(fragment: Fragment){
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.main_fragment_container, FragmentUserChat())
+            .commit()
     }
 }

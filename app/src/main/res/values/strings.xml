@@ -14,6 +14,11 @@
     <string name="reg_hint_password">Введите пароль</string>
     <string name="auth_title">Авторизация</string>
     <string name="reg_hint_telegram">Введите id telegram</string>
+    <string name="ic_calendar_text">Календарь</string>
+    <string name="ic_chat_text">Чат</string>
+    <string name="ic_profile_text">Профиль</string>
+    <string name="ic_clients_text">Клиенты</string>
+    <string name="btn_user_chat">Связаться в телеграм</string>
 
     <string name="fragment_main_text">Начать</string>
     <string name="fragment_main_title_text">Готовы к первым\nшагам к улучшению\nсвоей формы?</string>

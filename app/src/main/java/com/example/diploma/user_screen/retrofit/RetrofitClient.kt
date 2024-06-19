@@ -6,11 +6,13 @@ import com.example.diploma.user_screen.model.TaskListResponse
 import com.example.diploma.user_screen.model.TasksListReq
 import com.example.diploma.user_screen.model.UserCred
 import com.example.diploma.user_screen.model.UserCredResponse
+import com.example.diploma.user_screen.model.UserFullResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.UUID
 
 object RetrofitClient {
 
@@ -57,6 +59,28 @@ object RetrofitClient {
         })
     }
 
+    fun retrieveUser (
+    baseUrl: String,
+    userKey: String,
+    userId: String,
+    onResponse: MutableLiveData<UserFullResponse>
+    ) {
+        val retrofit = getRetrofit(baseUrl)
+        val api = retrofit.create(Api::class.java)
+        val call: Call<UserFullResponse> = api.getUserById(userKey, userId)
+        call.enqueue(object : Callback<UserFullResponse> {
+            override fun onResponse(
+                call: Call<UserFullResponse>,
+                response: Response<UserFullResponse>
+            ) {
+                onResponse.postValue(response.body())
+            }
+
+            override fun onFailure(call: Call<UserFullResponse>, t: Throwable) {
+                Log.d("QWE", "onFailure: " + t.message)
+            }
+        })
+    }
 
     private fun getRetrofit(baseUrl: String): Retrofit {
         if (retrofit == null) {
