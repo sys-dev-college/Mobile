@@ -19,11 +19,12 @@
     <string name="ic_profile_text">Профиль</string>
     <string name="ic_clients_text">Клиенты</string>
     <string name="btn_user_chat">Связаться в телеграм</string>
-
     <string name="fragment_main_text">Начать</string>
     <string name="fragment_main_title_text">Готовы к первым\nшагам к улучшению\nсвоей формы?</string>
     <string name="fragment_main_subtitle_text">Давайте начнём!</string>
-
+    <string name="fragment_user_profile_btn_reset">Сбросить пароль</string>
+    <string name="fragment_user_profile_btn_about">О приложении</string>
+    <string name="fragment_user_profile_btn_logout">Выйти из аккаунта</string>
     <string name="fragment_authorization_name_error">Должно содержать только РУССКИЕ буквы и быть из двух слов</string>
     <string name="fragment_authorization_password_error">Пароль должен содержать только латинские буквы и цифры</string>
 </resources>

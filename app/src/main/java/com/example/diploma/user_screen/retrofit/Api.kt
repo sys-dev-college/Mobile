@@ -1,11 +1,13 @@
 package com.example.diploma.user_screen.retrofit
 
 
+import com.example.diploma.user_screen.model.EmailReq
 import com.example.diploma.user_screen.model.TaskListResponse
 import com.example.diploma.user_screen.model.TasksListReq
 import com.example.diploma.user_screen.model.UserCred
 import com.example.diploma.user_screen.model.UserCredResponse
 import com.example.diploma.user_screen.model.UserFullResponse
+import com.example.diploma.user_screen.model.UserResetResponse
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -21,5 +23,8 @@ interface Api {
     fun userAuth(@Body req: UserCred) : Call<UserCredResponse>
 
     @GET("/api/users/{user_id}")
-    fun getUserById(@Header ("Authorization") user_key: String, @Path("user_id") userId: String): Call<UserFullResponse>
+    fun getUserById(@Header ("Authorization") userKey: String, @Path("user_id") userId: String): Call<UserFullResponse>
+
+    @POST("api/users/send-restore")
+    fun getReset(@Header ("Authorization") userKey: String, @Body req: EmailReq): Call<UserResetResponse>
 }

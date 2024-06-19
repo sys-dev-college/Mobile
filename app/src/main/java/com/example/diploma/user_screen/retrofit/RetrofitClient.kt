@@ -2,11 +2,13 @@ package com.example.diploma.user_screen.retrofit
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import com.example.diploma.user_screen.model.EmailReq
 import com.example.diploma.user_screen.model.TaskListResponse
 import com.example.diploma.user_screen.model.TasksListReq
 import com.example.diploma.user_screen.model.UserCred
 import com.example.diploma.user_screen.model.UserCredResponse
 import com.example.diploma.user_screen.model.UserFullResponse
+import com.example.diploma.user_screen.model.UserResetResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -77,6 +79,25 @@ object RetrofitClient {
             }
 
             override fun onFailure(call: Call<UserFullResponse>, t: Throwable) {
+                Log.d("QWE", "onFailure: " + t.message)
+            }
+        })
+    }
+
+    fun resetUser(
+        email: String,
+        onResponse: MutableLiveData<UserResetResponse>
+    ){
+        val call: Call<UserResetResponse> = getApi().getReset("Bearer", EmailReq(email))
+        call.enqueue(object : Callback<UserResetResponse> {
+            override fun onResponse(
+                call: Call<UserResetResponse>,
+                response: Response<UserResetResponse>
+            ) {
+                onResponse.postValue(response.body())
+            }
+
+            override fun onFailure(call: Call<UserResetResponse>, t: Throwable) {
                 Log.d("QWE", "onFailure: " + t.message)
             }
         })

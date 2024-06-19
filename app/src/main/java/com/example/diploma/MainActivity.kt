@@ -7,19 +7,25 @@ import android.os.Handler
 import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.example.diploma.databinding.ActivityMainBinding
 import com.example.diploma.splash_screen.SplashFragment
 import com.example.diploma.start_screen.ui.MainStartFragment
 import com.example.diploma.user_chat.FragmentUserChat
+import com.example.diploma.user_profile.FragmentUserProfile
+import com.example.diploma.user_screen.UserScreenFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     protected lateinit var prefs: SharedPreferences
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
         prefs = this.getPreferences(Context.MODE_PRIVATE)
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
@@ -31,12 +37,29 @@ class MainActivity : AppCompatActivity() {
                     .commit()
             }, 5L)
         }
+
+
+
+//        replaceUserFragment(UserScreenFragment())
+
+        binding.bottomNavigationView.setOnItemSelectedListener {
+            when (it.itemId) {
+                R.id.user_calendar -> replaceUserFragment(UserScreenFragment())
+                R.id.user_chat -> replaceUserFragment(FragmentUserChat())
+                R.id.user_profile -> replaceUserFragment(FragmentUserProfile())
+
+                else -> {
+
+                }
+            }
+            true
+        }
     }
 
-    private fun replaceUserFragment(fragment: Fragment){
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.main_fragment_container, FragmentUserChat())
-            .commit()
+    private fun replaceUserFragment(fragment: Fragment) {
+        val fragmentManager = supportFragmentManager
+        val fragmentTransaction = fragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.main_fragment_container, fragment)
+        fragmentTransaction.commit()
     }
 }
