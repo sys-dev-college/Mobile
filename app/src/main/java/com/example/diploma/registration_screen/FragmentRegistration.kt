@@ -7,16 +7,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import com.example.diploma.R
+import com.example.diploma.authorization_screen.AuthorizationFragment
+import com.example.diploma.base.BaseFragment
 import com.example.diploma.databinding.FragmentRegistrationBinding
-import com.example.diploma.login_screen.Authorization
 import com.example.diploma.user_screen.UserScreenFragment
-import com.example.diploma.user_screen.model.registration.RegistrationRes
 import com.example.diploma.user_screen.retrofit.RetrofitClient
+import kotlinx.coroutines.launch
 
-class FragmentRegistration : Fragment() {
+class FragmentRegistration : BaseFragment() {
 
     private companion object {
         private const val DEBOUNCE = 500L
@@ -38,7 +38,6 @@ class FragmentRegistration : Fragment() {
     private val isTelegramMLD = MutableLiveData(false)
     private val isButtonActiveMLD = MutableLiveData(false)
 
-    private val onResponse = MutableLiveData<RegistrationRes>()
     private val handler = Handler(Looper.getMainLooper())
 
     override fun onCreateView(
@@ -53,21 +52,22 @@ class FragmentRegistration : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.btnContinue.setOnClickListener {
             val names = nameMLD.value!!.split(" ")
-            RetrofitClient.registerUser(
-                email = emailMLD.value!!,
-                password = passwordMLD.value!!,
-                firstName = names[0],
-                lastName = names[1],
-                telegramUrl = String.format("https://t.me/%s/", telegramMLD.value),
-                onResponse
-            )
+            launch {
+                val res = RetrofitClient.registerUser(
+                    email = emailMLD.value!!,
+                    password = passwordMLD.value!!,
+                    firstName = names[0],
+                    lastName = names[1],
+                    telegramUrl = String.format("https://t.me/%s/", telegramMLD.value),
+                )
+                if (res?.status == true) {
+                    navigateTo(UserScreenFragment())
+                }
+            }
         }
 
         binding.fragmentRegistrationLoginButton.setOnClickListener {
-            val transaction = parentFragmentManager.beginTransaction()
-            transaction.replace(R.id.main_fragment_container, Authorization())
-            transaction.addToBackStack(this.javaClass.name)
-            transaction.commit()
+            navigateTo(AuthorizationFragment())
         }
 
         binding.name.addTextChangedListener {
@@ -138,12 +138,6 @@ class FragmentRegistration : Fragment() {
                     && isEmailMLD.value ?: false
                     && isPasswordMLD.value ?: false
         }
-
-        onResponse.observe(viewLifecycleOwner) {
-            if (it.status) {
-                navigateToCalendar()
-            }
-        }
     }
 
     private fun onNameChange(text: String) {
@@ -183,13 +177,6 @@ class FragmentRegistration : Fragment() {
             false -> null
         }
         telegramMLD.value = text
-    }
-
-    private fun navigateToCalendar() {
-        val transaction = parentFragmentManager.beginTransaction()
-        transaction.replace(R.id.main_fragment_container, UserScreenFragment())
-        transaction.addToBackStack(this.javaClass.name)
-        transaction.commit()
     }
 }
 

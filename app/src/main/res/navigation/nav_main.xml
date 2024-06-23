@@ -28,7 +28,7 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.diploma.login_screen.Authorization"
+        android:name="com.example.diploma.authorization_screen.AuthorizationFragment"
         android:label="Authorization"
         tools:layout="@layout/fragment_authorization">
 

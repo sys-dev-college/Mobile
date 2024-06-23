@@ -6,8 +6,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.diploma.databinding.LiTaskDetailItemBinding
 import com.example.diploma.user_screen.model.TaskNet
 
-internal class TaskScreenAdapter : RecyclerView.Adapter<TaskScreenAdapter.TaskDetailsViewHolder>() {
+class TaskScreenAdapter : RecyclerView.Adapter<TaskScreenAdapter.TaskDetailsViewHolder>() {
 
+    var onItemClick: OnCheckBoxClick? = null
     var items: List<TaskNet> = emptyList()
         set(value) {
             field = value
@@ -27,9 +28,19 @@ internal class TaskScreenAdapter : RecyclerView.Adapter<TaskScreenAdapter.TaskDe
         with(holder.binding) {
             liTaskDetailItemText.text = item.name
             liTaskDetailItemTextAmount.text = String.format("%s %s", item.amount, item.unit)
+            taskDetailItemCheckbox.isChecked = item.completed
+            root.setOnClickListener {
+                taskDetailItemCheckbox.isChecked = !taskDetailItemCheckbox.isChecked
+                item.completed = taskDetailItemCheckbox.isChecked
+                onItemClick?.invoke(item)
+            }
         }
     }
 
     class TaskDetailsViewHolder(val binding: LiTaskDetailItemBinding) :
         RecyclerView.ViewHolder(binding.root)
+
+    interface OnCheckBoxClick {
+        fun invoke(item: TaskNet)
+    }
 }

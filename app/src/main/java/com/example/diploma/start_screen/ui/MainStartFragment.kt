@@ -4,13 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import com.example.diploma.MainActivity
-import com.example.diploma.R
+import com.example.diploma.base.BaseFragment
 import com.example.diploma.databinding.FragmentMainBinding
 import com.example.diploma.registration_screen.FragmentRegistration
 
-class MainStartFragment : Fragment() {
+class MainStartFragment : BaseFragment() {
 
     private lateinit var binding: FragmentMainBinding
 
@@ -29,10 +28,7 @@ class MainStartFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.fragmentMainButton.setOnClickListener {
-            val transaction = parentFragmentManager.beginTransaction()
-            transaction.replace(R.id.main_fragment_container, FragmentRegistration())
-            transaction.addToBackStack(this.javaClass.name)
-            transaction.commit()
+            navigateTo(FragmentRegistration())
         }
     }
 }

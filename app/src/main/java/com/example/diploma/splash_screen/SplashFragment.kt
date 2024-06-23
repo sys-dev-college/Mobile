@@ -4,11 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import com.example.diploma.base.BaseFragment
 import com.example.diploma.databinding.SplashScreenBinding
 
 
-class SplashFragment : Fragment() {
+class SplashFragment : BaseFragment() {
 
     private lateinit var binding: SplashScreenBinding
     override fun onCreateView(

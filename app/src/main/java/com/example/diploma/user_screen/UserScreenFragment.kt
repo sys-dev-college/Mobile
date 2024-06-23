@@ -1,34 +1,23 @@
 package com.example.diploma.user_screen
 
-import android.content.Context
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.MutableLiveData
 import com.example.diploma.MainActivity
-import com.example.diploma.MainActivity.Companion.TASK_DATE
-import com.example.diploma.MainActivity.Companion.TASK_ID
-import com.example.diploma.MainActivity.Companion.USER_ID
-import com.example.diploma.MainActivity.Companion.USER_TOKEN
-import com.example.diploma.R
+import com.example.diploma.base.BaseFragment
 import com.example.diploma.databinding.FragmentUserScreenBinding
 import com.example.diploma.task_screen.TaskScreenFragment
 import com.example.diploma.user_screen.adapter.TasksAdapter
 import com.example.diploma.user_screen.model.TaskListResponse
 import com.example.diploma.user_screen.retrofit.RetrofitClient
-import java.util.Date
+import kotlinx.coroutines.launch
 
 
-class UserScreenFragment : Fragment(), TasksAdapter.OnClickListener {
+class UserScreenFragment : BaseFragment(), TasksAdapter.OnClickListener {
 
     private lateinit var binding: FragmentUserScreenBinding
-    private val onResponse = MutableLiveData<List<TaskListResponse>>()
     private lateinit var adapter: TasksAdapter
-    private val prefs: SharedPreferences
-        get() = requireActivity().getPreferences(Context.MODE_PRIVATE)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,6 +27,7 @@ class UserScreenFragment : Fragment(), TasksAdapter.OnClickListener {
         binding = FragmentUserScreenBinding.inflate(inflater, container, false)
         adapter = TasksAdapter()
         adapter.listener = this
+        adapter.items = emptyList()
         binding.fragmentUserScreenRv.adapter = adapter
         (requireActivity() as MainActivity).makeNavigationVisible()
         return binding.root
@@ -45,50 +35,43 @@ class UserScreenFragment : Fragment(), TasksAdapter.OnClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        onResponse.observe(viewLifecycleOwner) {
-            it?.let { response ->
-                if (response.isNotEmpty()) {
-                    adapter.items = response
-                }
-            }
-        }
 
-        val date = Date()
-        binding.fragmentUserScreenCalendar.date = date.time
+        val saveDate = calendarDate
+        if (saveDate != -1L) {
+            binding.fragmentUserScreenCalendar.date = saveDate
+            removeCalendarDate()
+        }
         binding.fragmentUserScreenCalendar.setOnDateChangeListener { _, year, month, dayOfMonth ->
-            adapter.items = emptyList()
-            getTasks(
-                year = year,
-                month = month + 1,
-                dayOfMonth = dayOfMonth
-            )
+            launch {
+                adapter.items = emptyList()
+                getTasks(
+                    year = year,
+                    month = month + 1,
+                    dayOfMonth = dayOfMonth
+                )
+            }
         }
     }
 
-    private fun getTasks(year: Int, month: Int, dayOfMonth: Int) {
-        val token = prefs.getString(USER_TOKEN, "") ?: ""
-        val id = prefs.getString(USER_ID, "") ?: ""
+    private suspend fun getTasks(year: Int, month: Int, dayOfMonth: Int): List<TaskListResponse> {
 
         val monthString = when (month.toString().length == 1) {
             true -> "0$month"
             false -> "$month"
         }
         val date = String.format("%s-%s-%s", year, monthString, dayOfMonth)
-        prefs.edit().putString(TASK_DATE, date).apply()
+        saveTaskDate(date)
 
-        RetrofitClient.getTasks(
+        return RetrofitClient.getTasks(
             date = date,
-            userToken = token,
-            userId = id,
-            onResponse = onResponse
+            userToken = userToken,
+            userId = id
         )
     }
 
     override fun onClick(model: TaskListResponse) {
-        prefs.edit().putString(TASK_ID, model.id).apply()
-        val transaction = parentFragmentManager.beginTransaction()
-        transaction.replace(R.id.main_fragment_container, TaskScreenFragment())
-        transaction.addToBackStack(this.javaClass.name)
-        transaction.commit()
+        saveTaskId(model.id)
+        saveCalendarDate(binding.fragmentUserScreenCalendar.date)
+        navigateTo(TaskScreenFragment())
     }
 }

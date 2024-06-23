@@ -50,17 +50,5 @@ data class TaskNet(
     val unit: String,
 
     @SerializedName("completed")
-    val completed: Boolean,
+    var completed: Boolean,
 )
-
-
-data class LoginResponse(
-    val access_token: String,
-    val refresh_token: String
-)
-
-
-//data class UserCredNet(
-//    val access_token: String,
-//    val refresh_token: String
-//)

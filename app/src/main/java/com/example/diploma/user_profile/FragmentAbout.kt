@@ -4,10 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import com.example.diploma.base.BaseFragment
 import com.example.diploma.databinding.AboutBinding
 
-class FragmentAbout : Fragment() {
+class FragmentAbout : BaseFragment() {
 
     private lateinit var binding: AboutBinding
 

@@ -15,15 +15,16 @@ import com.example.diploma.start_screen.ui.MainStartFragment
 import com.example.diploma.user_chat.FragmentUserChat
 import com.example.diploma.user_profile.FragmentUserProfile
 import com.example.diploma.user_screen.UserScreenFragment
-import dagger.hilt.android.AndroidEntryPoint
+import com.example.diploma.user_screen.model.me.RoleName
 
-@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     companion object {
         const val USER_ID = "USER_ID"
         const val USER_TOKEN = "USER_TOKEN"
         const val USER_EMAIL = "USER_EMAIL"
+        const val USER_ROLE = "USER_ROLE"
+        const val TELEGRAM_ID = "TELEGRAM_ID"
         const val TASK_ID = "TASK_ID"
         const val TASK_DATE = "TASK_DATE"
     }
@@ -49,19 +50,23 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.bottomNavigationView.setOnItemSelectedListener {
+            val userRole = RoleName.byName(prefs.getString(USER_ROLE, "") ?: "")
             when (it.itemId) {
-                R.id.user_calendar -> replaceUserFragment(UserScreenFragment())
+                R.id.user_calendar -> replaceUserFragment(choseCalendar(userRole))
                 R.id.user_chat -> replaceUserFragment(FragmentUserChat())
-                R.id.user_profile -> replaceUserFragment(FragmentUserProfile())
-
-                else -> {
-                }
+                else -> replaceUserFragment(FragmentUserProfile())
             }
             true
         }
         makeNavigationGone()
         window.statusBarColor = Color.parseColor("#C8C7C7")
     }
+
+    private fun choseCalendar(userRole: RoleName): Fragment =
+        when (userRole) {
+            RoleName.USER -> UserScreenFragment()
+            RoleName.TRAINER -> UserScreenFragment()
+        }
 
     fun makeNavigationVisible() {
         binding.bottomNavigationView.visibility = View.VISIBLE

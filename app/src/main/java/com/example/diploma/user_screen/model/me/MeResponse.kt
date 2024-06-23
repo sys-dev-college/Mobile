@@ -22,5 +22,33 @@ class MeResponse(
 
     @SerializedName("telegram_url")
     @Expose
-    val telegramUrl: String
+    val telegramUrl: String,
+
+    @SerializedName("role_name")
+    @Expose
+    val role: RoleNet
 )
+
+data class RoleNet(
+    @SerializedName("name")
+    @Expose
+    val name: String,
+
+    @SerializedName("id")
+    @Expose
+    val roleId: String
+)
+
+enum class RoleName {
+    USER,
+    TRAINER;
+
+    companion object {
+        fun byName(name: String): RoleName {
+            return when (name) {
+                "trainer" -> TRAINER
+                else -> USER
+            }
+        }
+    }
+}

@@ -1,7 +1,5 @@
-package com.example.diploma.login_screen
+package com.example.diploma.authorization_screen
 
-import android.content.Context
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -9,20 +7,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import com.example.diploma.MainActivity
-import com.example.diploma.MainActivity.Companion.USER_EMAIL
-import com.example.diploma.MainActivity.Companion.USER_ID
-import com.example.diploma.MainActivity.Companion.USER_TOKEN
 import com.example.diploma.R
+import com.example.diploma.base.BaseFragment
 import com.example.diploma.databinding.FragmentAuthorizationBinding
+import com.example.diploma.trainer_part.users_list_screen.UsersListFragment
 import com.example.diploma.user_screen.UserScreenFragment
 import com.example.diploma.user_screen.model.UserCredResponse
-import com.example.diploma.user_screen.model.me.MeResponse
+import com.example.diploma.user_screen.model.me.RoleName
 import com.example.diploma.user_screen.retrofit.RetrofitClient
+import kotlinx.coroutines.launch
 
-class Authorization : Fragment() {
+class AuthorizationFragment : BaseFragment() {
 
     companion object {
         private const val DEBOUNCE = 300L
@@ -38,12 +35,7 @@ class Authorization : Fragment() {
     private val isEmailMLD = MutableLiveData(false)
     private val isButtonActiveMLD = MutableLiveData(false)
 
-    private val onResponse = MutableLiveData<UserCredResponse?>()
-    private val onMeResponse = MutableLiveData<MeResponse?>()
-
     private val handler = Handler(Looper.getMainLooper())
-    private val prefs: SharedPreferences
-        get() = requireActivity().getPreferences(Context.MODE_PRIVATE)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -58,11 +50,16 @@ class Authorization : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.btnContinue.setOnClickListener {
-            RetrofitClient.loginUser(
-                email = nameMLD.value!!,
-                password = passwordMLD.value!!,
-                onResponse
-            )
+            launch {
+                val me = RetrofitClient.getMe(userToken)
+                onAuthorizationResponse(
+                    RetrofitClient.loginUser(
+                        email = nameMLD.value!!,
+                        password = passwordMLD.value!!
+                    ),
+                    role = RoleName.byName(me?.role?.name.orEmpty())
+                )
+            }
         }
         binding.fragmentAuthorizationEmail.addTextChangedListener {
             handler.removeCallbacksAndMessages(null)
@@ -92,30 +89,6 @@ class Authorization : Fragment() {
         isPasswordMLD.observe(viewLifecycleOwner) {
             isButtonActiveMLD.value = it && isEmailMLD.value ?: false
         }
-
-        onResponse.observe(viewLifecycleOwner) {
-            it?.let {
-                if (it.accessToken.isNotBlank()) {
-                    prefs.edit().putString(USER_TOKEN, it.accessToken).apply()
-                    RetrofitClient.getMe(it.accessToken, onMeResponse)
-                }
-            }
-        }
-        onMeResponse.observe(viewLifecycleOwner) {
-            it?.let {
-                prefs.edit().putString(USER_ID, it.id).apply()
-                prefs.edit().putString(USER_EMAIL, it.email).apply()
-                navigateToUserScreen()
-            }
-        }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        onResponse.removeObservers(viewLifecycleOwner)
-        onResponse.value = null
-        onMeResponse.removeObservers(viewLifecycleOwner)
-        onMeResponse.value = null
     }
 
     private fun onEmailChange(text: String) {
@@ -138,10 +111,18 @@ class Authorization : Fragment() {
         passwordMLD.value = text
     }
 
-    private fun navigateToUserScreen() {
-        val transaction = parentFragmentManager.beginTransaction()
-        transaction.replace(R.id.main_fragment_container, UserScreenFragment())
-        transaction.addToBackStack(this.javaClass.name)
-        transaction.commit()
+//    TODO: когда саня добавит роль в ответ от логина передавать сюда из логина, а не из getMe
+    private fun onAuthorizationResponse(userCredResponse: UserCredResponse?, role: RoleName) {
+        userCredResponse?.let {
+            saveToken(it.token?.accessToken)
+            saveUserId(it.user?.id.orEmpty())
+            saveUserEmail(it.user?.email.orEmpty())
+            saveTelegramUrl(it.user?.telegramUrl.orEmpty())
+            saveRole(role.name)
+            navigateTo(when(role) {
+                RoleName.USER -> UserScreenFragment()
+                RoleName.TRAINER -> UsersListFragment()
+            })
+        }
     }
 }
