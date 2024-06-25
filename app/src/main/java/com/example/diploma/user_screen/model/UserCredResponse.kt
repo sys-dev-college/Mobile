@@ -10,7 +10,11 @@ data class UserCredResponse(
 
     @SerializedName("user")
     @Expose
-    val user: User?
+    val user: User?,
+
+    @SerializedName("role")
+    @Expose
+    val role: Role?,
 )
 
 data class Token(
@@ -39,4 +43,14 @@ data class User(
     @SerializedName("telegram_url")
     @Expose
     val telegramUrl: String?,
+)
+
+data class Role(
+    @SerializedName("id")
+    @Expose
+    val id: String?,
+
+    @SerializedName("name")
+    @Expose
+    val name: String?,
 )

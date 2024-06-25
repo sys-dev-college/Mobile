@@ -4,9 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import com.example.diploma.MainActivity
 import com.example.diploma.base.BaseFragment
 import com.example.diploma.databinding.FragmentUsersListBinding
+import com.example.diploma.trainer_part.user_change.UserSetChanges
+import com.example.diploma.trainer_part.user_change.model.UserData
 import com.example.diploma.user_screen.model.TrainerUser
 import com.example.diploma.user_screen.retrofit.RetrofitClient
 import kotlinx.coroutines.launch
@@ -38,6 +41,8 @@ class UsersListFragment : BaseFragment(), UsersListAdapter.OnButtonClick {
     }
 
     override fun invoke(item: TrainerUser) {
-//        TODO("Not yet implemented")
+        val fragment = UserSetChanges()
+        fragment.arguments = bundleOf(Pair(UserSetChanges.USER_DATA, UserData(item.id, item.name, item.email, item.telegramUrl)))
+        navigateTo(fragment)
     }
 }

@@ -39,4 +39,9 @@
     <string name="fragment_registration_password_error">Не менее 6 символов, латиница и цифры</string>
     <string name="fragment_registration_telegram_error">Введите Telegram id</string>
 
+    <string name="fragment_change_user_tasks_name">Название</string>
+    <string name="fragment_change_user_tasks_time">Время</string>
+
+    <string name="fragment_clients_detail_btn_chat">Открыть чат</string>
+    <string name="fragment_clients_detail_btn_calendar">Изменить расписание</string>
 </resources>

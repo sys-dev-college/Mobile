@@ -9,6 +9,13 @@
     <item android:title="@string/ic_chat_text"
         android:id="@+id/user_chat"
         android:icon="@drawable/ic_chat"
+        android:visible="true"
+        />
+
+    <item android:title="Клиенты"
+        android:id="@+id/trener_clients"
+        android:icon="@drawable/ic_clients"
+        android:visible="false"
         />
 
     <item android:title="@string/ic_profile_text"

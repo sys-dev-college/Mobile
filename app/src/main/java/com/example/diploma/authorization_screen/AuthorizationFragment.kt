@@ -51,14 +51,11 @@ class AuthorizationFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.btnContinue.setOnClickListener {
             launch {
-                val me = RetrofitClient.getMe(userToken)
-                onAuthorizationResponse(
-                    RetrofitClient.loginUser(
-                        email = nameMLD.value!!,
-                        password = passwordMLD.value!!
-                    ),
-                    role = RoleName.byName(me?.role?.name.orEmpty())
+                val auth = RetrofitClient.loginUser(
+                    email = nameMLD.value!!,
+                    password = passwordMLD.value!!
                 )
+                onAuthorizationResponse(auth)
             }
         }
         binding.fragmentAuthorizationEmail.addTextChangedListener {
@@ -111,18 +108,22 @@ class AuthorizationFragment : BaseFragment() {
         passwordMLD.value = text
     }
 
-//    TODO: когда саня добавит роль в ответ от логина передавать сюда из логина, а не из getMe
-    private fun onAuthorizationResponse(userCredResponse: UserCredResponse?, role: RoleName) {
+    private fun onAuthorizationResponse(userCredResponse: UserCredResponse?) {
         userCredResponse?.let {
             saveToken(it.token?.accessToken)
             saveUserId(it.user?.id.orEmpty())
             saveUserEmail(it.user?.email.orEmpty())
             saveTelegramUrl(it.user?.telegramUrl.orEmpty())
+
+            val role = RoleName.byName(it.role?.name.orEmpty())
             saveRole(role.name)
-            navigateTo(when(role) {
-                RoleName.USER -> UserScreenFragment()
-                RoleName.TRAINER -> UsersListFragment()
-            })
+
+            navigateTo(
+                when (role) {
+                    RoleName.USER -> UserScreenFragment()
+                    RoleName.TRAINER -> UsersListFragment()
+                }
+            )
         }
     }
 }

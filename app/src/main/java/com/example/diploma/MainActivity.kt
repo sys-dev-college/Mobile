@@ -62,6 +62,11 @@ class MainActivity : AppCompatActivity() {
         window.statusBarColor = Color.parseColor("#C8C7C7")
     }
 
+    override fun onDestroy() {
+        prefs.edit().clear().apply()
+        super.onDestroy()
+    }
+
     private fun choseCalendar(userRole: RoleName): Fragment =
         when (userRole) {
             RoleName.USER -> UserScreenFragment()
