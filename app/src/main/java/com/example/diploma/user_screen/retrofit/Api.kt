@@ -1,6 +1,7 @@
 package com.example.diploma.user_screen.retrofit
 
 
+import com.example.diploma.user_screen.model.CreateCalendarReq
 import com.example.diploma.user_screen.model.EmailReq
 import com.example.diploma.user_screen.model.TaskListResponse
 import com.example.diploma.user_screen.model.TasksListReq
@@ -14,6 +15,7 @@ import com.example.diploma.user_screen.model.registration.RegistrationRes
 import com.example.diploma.user_screen.model.registration.RegistrationsReq
 import retrofit2.Call
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
@@ -62,5 +64,16 @@ interface Api {
         @Header("Authorization") userToken: String,
     ): Call<MeResponse>
 
+    @DELETE("/api/calendars")
+    fun deleteCalendar(
+        @Header("Authorization") userToken: String,
+        @Query("calendar_id") calendarId: String
+    ) : Call <Unit>
+
+    @POST("/api/calendars")
+    fun createCalendar(
+        @Body req: CreateCalendarReq,
+        @Header("Authorization") userToken: String
+    ) : Call <Unit>
 
 }

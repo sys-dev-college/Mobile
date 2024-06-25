@@ -1,105 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <LinearLayout
-        android:id="@+id/fragment_add_task_linear"
+    <TextView
+        android:id="@+id/fragment_add_task_tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Название"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/fragment_add_task_et_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="12dp"
+        android:hint="Введите название"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fragment_add_task_tv_name" />
 
-        <TextView
-            android:id="@+id/fragment_add_task_tv_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Название"
-            android:textSize="16sp" />
+    <TextView
+        android:id="@+id/fragment_add_task_tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Время"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fragment_add_task_et_name" />
 
-        <EditText
-            android:id="@+id/fragment_add_task_et_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Введите название"
-            android:textSize="16sp"
-            />
 
-        <TextView
-            android:id="@+id/fragment_add_task_tv_time"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Время"
-            android:textSize="16sp"
-            android:layout_marginTop="16dp"
-            />
+    <EditText
+        android:id="@+id/fragment_add_task_et_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="12dp"
+        android:hint="Введите время"
+        android:inputType="time"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fragment_add_task_tv_time" />
 
-        <EditText
-            android:id="@+id/fragment_add_task_et_time"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Введите время"
-            android:textSize="16sp"
-            />
+    <TextView
+        android:id="@+id/fragment_add_task_checkbox_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Тренировка"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/fragment_add_task_checkbox"
+        app:layout_constraintBottom_toBottomOf="@id/fragment_add_task_checkbox"
+        app:layout_constraintTop_toTopOf="@id/fragment_add_task_checkbox" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="16dp"
-            >
+    <CheckBox
+        android:id="@+id/fragment_add_task_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/fragment_add_task_checkbox_text"
+        app:layout_constraintTop_toBottomOf="@id/fragment_add_task_et_time"
+        android:layout_marginTop="12dp"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        />
 
-            <CheckedTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Тренировка"
-                android:layout_marginStart="20dp"
-                android:checkMark="@drawable/ic_check"
-                />
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/fragment_add_task_btn_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="@color/variant"
+        android:text="Отменить"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toStartOf="@id/fragment_add_task_btn_accept"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fragment_add_task_checkbox" />
 
-            <CheckedTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Питание"
-                android:layout_marginStart="100dp"
-                android:checkMark="@drawable/ic_check"
-                />
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/fragment_add_task_btn_accept"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:backgroundTint="@color/variant"
+        android:text="Принять"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/fragment_add_task_btn_cancel"
+        app:layout_constraintTop_toTopOf="@id/fragment_add_task_btn_cancel" />
 
-        </LinearLayout>
+    <ProgressBar
+        android:id="@+id/fragment_add_task_progress"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/fragment_add_task_btn_accept"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/fragment_add_task_btn_accept"
+        app:layout_constraintTop_toTopOf="@id/fragment_add_task_btn_accept" />
 
-        <LinearLayout
-            android:id="@+id/fragment_add_task_linear_btns"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="16dp"
-            android:gravity="end"
-            android:textSize="16sp"
-            >
-
-            <Button
-                android:id="@+id/fragment_add_task_btn_cancel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Отменить"
-                android:textSize="16sp"
-                android:backgroundTint="@color/variant"
-                />
-
-            <Button
-                android:id="@+id/fragment_add_task_btn_accept"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Принять"
-                android:layout_marginStart="16dp"
-                android:textSize="16sp"
-                android:backgroundTint="@color/variant"
-                />
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

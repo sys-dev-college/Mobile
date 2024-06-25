@@ -9,6 +9,7 @@ import com.example.diploma.user_screen.model.TaskListResponse
 class UserCalendarAdapter : RecyclerView.Adapter<UserCalendarAdapter.TaskUserCalendarViewHolder>() {
 
     var listener: OnClickListener? = null
+    var longClickListener: OnLongClickListener? = null
 
     var items: List<TaskListResponse> = emptyList()
         set(value) {
@@ -31,14 +32,31 @@ class UserCalendarAdapter : RecyclerView.Adapter<UserCalendarAdapter.TaskUserCal
             liClientsCalendarTasksItemText.setOnClickListener {
                 listener?.onClick(item)
             }
-            /*liClientsCalendarTasksItemCheckbox.setOnCheckedChangeListener { listener?.onClick(item) }*/
+            liClientsCalendarTasksItemText.setOnLongClickListener {
+                longClickListener?.onLongClick(item)
+                removeItem(item)
+                return@setOnLongClickListener true
             }
+        }
 
     }
 
-    class TaskUserCalendarViewHolder(val binding: LiClientsCalendarTasksBinding) : RecyclerView.ViewHolder(binding.root)
+    fun removeItem(item: TaskListResponse) {
+        val list = items.toMutableList().apply {
+            remove(item)
+        }
+        items = list
+        notifyDataSetChanged()
+    }
+
+    class TaskUserCalendarViewHolder(val binding: LiClientsCalendarTasksBinding) :
+        RecyclerView.ViewHolder(binding.root)
 
     interface OnClickListener {
         fun onClick(model: TaskListResponse)
+    }
+
+    interface OnLongClickListener {
+        fun onLongClick(model: TaskListResponse)
     }
 }

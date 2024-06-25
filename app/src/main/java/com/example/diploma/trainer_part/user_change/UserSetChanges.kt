@@ -42,7 +42,7 @@ class UserSetChanges : BaseFragment() {
         binding.fragmentClientsDetailBtnCalendar.setOnClickListener {
             val fragment = CheckUserCalendar()
             fragment.arguments = bundleOf(Pair(USER_ID, args?.id.orEmpty()))
-            navigateTo(CheckUserCalendar())
+            navigateTo(fragment)
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.example.diploma.user_screen.retrofit
 
+import com.example.diploma.user_screen.model.CreateCalendarReq
 import com.example.diploma.user_screen.model.EmailReq
 import com.example.diploma.user_screen.model.TaskListResponse
 import com.example.diploma.user_screen.model.TasksListReq
@@ -16,6 +17,8 @@ import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
@@ -98,7 +101,7 @@ object RetrofitClient {
 
     suspend fun getUsersList(userToken: String): List<TrainerUser> = withContext(Dispatchers.IO) {
         val call = getApi().getUsers(userToken = userToken.makeToken())
-        return@withContext call.execute().body().orEmpty()
+        return@withContext call?.execute()?.body() ?: emptyList()
     }
 
     suspend fun resetUser(
@@ -123,5 +126,42 @@ object RetrofitClient {
             )
             call.execute()
         }
+    }
+
+    suspend fun deleteCalendar(
+        userKey: String,
+        calendarId: String,
+    ) {
+        withContext(Dispatchers.IO) {
+            val call: Call<Unit> = getApi().deleteCalendar(
+                userToken = userKey.makeToken(),
+                calendarId = calendarId,
+            )
+            call.execute()
+        }
+    }
+
+    fun createCalendar(
+        userToken: String,
+        clientId: String,
+        scheduled: String,
+        title: String,
+        type: Int
+    ) {
+        val call: Call<Unit> =
+            getApi().createCalendar(
+                CreateCalendarReq(clientId, scheduled, title, type),
+                userToken.makeToken()
+            )
+        call.enqueue(object: Callback<Unit>{
+            override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
+                //do nothing
+            }
+
+            override fun onFailure(call: Call<Unit>, t: Throwable) {
+                //do nothing
+            }
+        })
+
     }
 }
