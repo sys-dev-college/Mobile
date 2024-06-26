@@ -1,5 +1,6 @@
 package com.example.diploma.trainer_part.create_task
 
+import android.app.TimePickerDialog
 import android.icu.util.Calendar
 import android.os.Bundle
 import android.os.Handler
@@ -11,16 +12,24 @@ import androidx.core.widget.addTextChangedListener
 import com.example.diploma.databinding.FragmentAddTaskBinding
 import com.example.diploma.user_screen.retrofit.RetrofitClient
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class CreateTaskFragment : BottomSheetDialogFragment() {
 
     companion object {
         const val USER_TOKEN = "USER_TOKEN"
         const val CLIENT_ID = "CLIENT_ID"
+        const val CARD_DATE = "CARD_DATE"
+        private const val PATTERN = "HH:mm"
+        const val PATTERN_NET = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS"
     }
 
 
     private lateinit var binding: FragmentAddTaskBinding
+    private var cardDate: String = ""
     private var userToken: String = ""
     private var clientId: String = ""
     private var scheduled: String = ""
@@ -35,31 +44,32 @@ class CreateTaskFragment : BottomSheetDialogFragment() {
         binding = FragmentAddTaskBinding.inflate(inflater, container, false)
         clientId = arguments?.getString(CLIENT_ID).orEmpty()
         userToken = arguments?.getString(USER_TOKEN).orEmpty()
+        cardDate = arguments?.getString(CARD_DATE).orEmpty()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val saveDate = cardDate
+
         binding.fragmentAddTaskEtName.addTextChangedListener {
             title = it.toString()
         }
 
-        binding.fragmentAddTaskEtTime.addTextChangedListener {
-            scheduled = it.toString()
+        binding.fragmentAddTaskEtTime.setOnClickListener {
             val calendar = Calendar.getInstance()
-            /*val fragment = TimePickerDialog(
-                context = requireContext(),
-                listener = object:TimePickerDialog.OnTimeSetListener{
-                    override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
-                        TODO("Not yet implemented")
-                    }
-
+            calendar.time = Date()
+            TimePickerDialog(
+                requireContext(),
+                { _, hourOfDay, minute ->
+                    scheduled = makeTime(hourOfDay, minute, calendar)
+                    binding.fragmentAddTaskEtTime.text = String.format("%s:%s", hourOfDay, minute)
                 },
-                hourOfDay = calendar.get(Calendar.HOUR_OF_DAY),
-                is24HourView = true,
-                minutes = calendar.get(Calendar.MINUTE),
-            )*/
+                calendar.get(Calendar.HOUR_OF_DAY),
+                calendar.get(Calendar.MINUTE),
+                true,
+            ).show()
         }
 
         binding.fragmentAddTaskCheckboxText.setOnClickListener {
@@ -99,4 +109,28 @@ class CreateTaskFragment : BottomSheetDialogFragment() {
         }
     }
 
+    private fun makeTime(hour: Int, minute: Int, calendar: Calendar): String {
+        val sdf = SimpleDateFormat(PATTERN, Locale.getDefault())
+        val hourString = when (hour.toString().length == 1) {
+            true -> "0$hour"
+            false -> "$hour"
+        }
+        val minuteString = when (minute.toString().length == 1) {
+            true -> "0$minute"
+            false -> "$minute"
+        }
+
+        val timeString = String.format("%s:%s", hourString, minuteString)
+        val date =
+            try {
+                sdf.parse(timeString)
+            } catch (e: ParseException) {
+                Date()
+            }
+        date.year = calendar.get(Calendar.YEAR) - 1900
+        date.month = calendar.get(Calendar.MONTH)
+        date.date = calendar.get(Calendar.DATE)
+        val newSdf = SimpleDateFormat(PATTERN_NET, Locale.getDefault())
+        return newSdf.format(date)
+    }
 }

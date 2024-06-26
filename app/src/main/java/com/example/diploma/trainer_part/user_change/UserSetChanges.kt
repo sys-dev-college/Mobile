@@ -10,6 +10,7 @@ import androidx.core.os.bundleOf
 import com.example.diploma.MainActivity
 import com.example.diploma.base.BaseFragment
 import com.example.diploma.databinding.FragmentClientsDetailBinding
+import com.example.diploma.trainer_part.check_trainer_calendar.CheckTrainerCalendarFragment
 import com.example.diploma.trainer_part.user_change.model.UserData
 import com.example.diploma.trainer_part.users_calendar.CheckUserCalendar
 import com.example.diploma.trainer_part.users_calendar.CheckUserCalendar.Companion.USER_ID
@@ -43,6 +44,10 @@ class UserSetChanges : BaseFragment() {
             val fragment = CheckUserCalendar()
             fragment.arguments = bundleOf(Pair(USER_ID, args?.id.orEmpty()))
             navigateTo(fragment)
+        }
+
+        binding.fragmentClientsDetailBtnChecking.setOnClickListener {
+            navigateTo(CheckTrainerCalendarFragment())
         }
     }
 }

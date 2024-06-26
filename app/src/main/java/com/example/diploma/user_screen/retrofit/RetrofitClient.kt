@@ -3,6 +3,7 @@ package com.example.diploma.user_screen.retrofit
 import com.example.diploma.user_screen.model.CreateCalendarReq
 import com.example.diploma.user_screen.model.EmailReq
 import com.example.diploma.user_screen.model.TaskListResponse
+import com.example.diploma.user_screen.model.TaskNet
 import com.example.diploma.user_screen.model.TasksListReq
 import com.example.diploma.user_screen.model.TrainerUser
 import com.example.diploma.user_screen.model.UserCred
@@ -10,6 +11,7 @@ import com.example.diploma.user_screen.model.UserCredResponse
 import com.example.diploma.user_screen.model.UserFullResponse
 import com.example.diploma.user_screen.model.UserResetResponse
 import com.example.diploma.user_screen.model.me.MeResponse
+import com.example.diploma.user_screen.model.registration.CreateTaskReq
 import com.example.diploma.user_screen.model.registration.RegistrationRes
 import com.example.diploma.user_screen.model.registration.RegistrationsReq
 import kotlinx.coroutines.Dispatchers
@@ -153,7 +155,7 @@ object RetrofitClient {
                 CreateCalendarReq(clientId, scheduled, title, type),
                 userToken.makeToken()
             )
-        call.enqueue(object: Callback<Unit>{
+        call.enqueue(object : Callback<Unit> {
             override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
                 //do nothing
             }
@@ -163,5 +165,51 @@ object RetrofitClient {
             }
         })
 
+    }
+
+    fun createTask(
+        userToken: String,
+        calendarId: String,
+        name: String,
+        amount: Int,
+        unit: String,
+    ) {
+        val call: Call<Unit> =
+            getApi().createTask(
+                CreateTaskReq(calendarId, name, amount, unit),
+                userToken.makeToken()
+            )
+        call.enqueue(object : Callback<Unit> {
+            override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
+                //do nothing
+            }
+
+            override fun onFailure(call: Call<Unit>, t: Throwable) {
+                //do nothing
+            }
+        })
+
+    }
+
+    suspend fun deleteTask(
+        userKey: String,
+        taskId: String,
+    ) {
+        withContext(Dispatchers.IO) {
+            val call: Call<Unit> = getApi().deleteTask(
+                userToken = userKey.makeToken(),
+                taskId = taskId,
+            )
+            call.execute()
+        }
+    }
+
+    suspend fun getTasksByCalendar(
+        userToken: String,
+        calendarId: String,
+    ): List<TaskNet> = withContext(Dispatchers.IO) {
+        val call: Call<List<TaskNet>> =
+            getApi().getTasksByCalendar(userToken.makeToken(), calendarId)
+        return@withContext call.execute().body().orEmpty()
     }
 }

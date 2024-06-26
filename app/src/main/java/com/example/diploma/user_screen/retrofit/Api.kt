@@ -4,6 +4,7 @@ package com.example.diploma.user_screen.retrofit
 import com.example.diploma.user_screen.model.CreateCalendarReq
 import com.example.diploma.user_screen.model.EmailReq
 import com.example.diploma.user_screen.model.TaskListResponse
+import com.example.diploma.user_screen.model.TaskNet
 import com.example.diploma.user_screen.model.TasksListReq
 import com.example.diploma.user_screen.model.TrainerUser
 import com.example.diploma.user_screen.model.UserCred
@@ -11,6 +12,7 @@ import com.example.diploma.user_screen.model.UserCredResponse
 import com.example.diploma.user_screen.model.UserFullResponse
 import com.example.diploma.user_screen.model.UserResetResponse
 import com.example.diploma.user_screen.model.me.MeResponse
+import com.example.diploma.user_screen.model.registration.CreateTaskReq
 import com.example.diploma.user_screen.model.registration.RegistrationRes
 import com.example.diploma.user_screen.model.registration.RegistrationsReq
 import retrofit2.Call
@@ -68,12 +70,29 @@ interface Api {
     fun deleteCalendar(
         @Header("Authorization") userToken: String,
         @Query("calendar_id") calendarId: String
-    ) : Call <Unit>
+    ): Call<Unit>
 
     @POST("/api/calendars")
     fun createCalendar(
         @Body req: CreateCalendarReq,
         @Header("Authorization") userToken: String
-    ) : Call <Unit>
+    ): Call<Unit>
 
+    @POST("/api/tasks/")
+    fun createTask(
+        @Body req: CreateTaskReq,
+        @Header("Authorization") userToken: String
+    ): Call<Unit>
+
+    @DELETE("/api/tasks")
+    fun deleteTask(
+        @Header("Authorization") userToken: String,
+        @Query("task_id") taskId: String
+    ): Call<Unit>
+
+    @GET("/api/tasks")
+    fun getTasksByCalendar(
+        @Header("Authorization") userToken: String,
+        @Query("calendar_id") calendarId: String
+    ): Call<List<TaskNet>>
 }

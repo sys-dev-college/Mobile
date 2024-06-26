@@ -9,9 +9,12 @@ import com.example.diploma.MainActivity
 import com.example.diploma.base.BaseFragment
 import com.example.diploma.databinding.FragmentChangeUserCalendarBinding
 import com.example.diploma.trainer_part.create_task.CreateTaskFragment
+import com.example.diploma.trainer_part.create_task.CreateTaskFragment.Companion.CARD_DATE
 import com.example.diploma.trainer_part.create_task.CreateTaskFragment.Companion.CLIENT_ID
 import com.example.diploma.trainer_part.create_task.CreateTaskFragment.Companion.USER_TOKEN
 import com.example.diploma.trainer_part.users_detail_task.CheckUserDetailTasks
+import com.example.diploma.trainer_part.users_detail_task.CheckUserDetailTasks.Companion.CARD_NAME
+import com.example.diploma.trainer_part.users_detail_task.CheckUserDetailTasks.Companion.CARD_TIME
 import com.example.diploma.user_screen.model.TaskListResponse
 import com.example.diploma.user_screen.retrofit.RetrofitClient
 import kotlinx.coroutines.launch
@@ -87,7 +90,12 @@ class CheckUserCalendar : BaseFragment(), UserCalendarAdapter.OnClickListener,
     override fun onClick(model: TaskListResponse) {
         saveTaskId(model.id)
         saveCalendarDate(binding.fragmentChangeUserCalendarCalendar.date)
-        navigateTo(CheckUserDetailTasks())
+        val fragment = CheckUserDetailTasks()
+        val name = model.title
+        val time = model.scheduled
+        fragment.arguments = bundleOf(Pair(CARD_NAME, name), Pair(CARD_TIME, time), Pair(CARD_DATE, binding.fragmentChangeUserCalendarCalendar.date))
+        /*fragment.show(parentFragmentManager, "tag")*/
+        navigateTo(fragment)
     }
 
     override fun onLongClick(model: TaskListResponse) {
