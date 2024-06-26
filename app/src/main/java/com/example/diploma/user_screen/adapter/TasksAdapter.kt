@@ -4,7 +4,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.diploma.databinding.LiTaskItemBinding
+import com.example.diploma.trainer_part.users_detail_task.CheckUserDetailTasks.Companion.PATTERN
 import com.example.diploma.user_screen.model.TaskListResponse
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 internal class TasksAdapter : RecyclerView.Adapter<TasksAdapter.TaskViewHolder>() {
 
@@ -27,11 +32,35 @@ internal class TasksAdapter : RecyclerView.Adapter<TasksAdapter.TaskViewHolder>(
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
         val item = items[position]
         with(holder.binding) {
-            liTaskItemText.text = item.title
-            liTaskItemText.setOnClickListener {
+            liTasksItemText.text = item.title
+            liTasksItemTextTime.text = makeTime(item.scheduled)
+            root.setOnClickListener {
                 listener?.onClick(item)
             }
         }
+    }
+
+    private fun makeTime(timeString: String?): String {
+        val sdf = SimpleDateFormat(PATTERN, Locale.getDefault())
+        val date =
+            try {
+                timeString?.let { dateString ->
+                    sdf.parse(dateString)
+                }
+            } catch (e: ParseException) {
+                Date()
+            }
+        val dateHours = date?.hours
+        val dateMinutes = date?.minutes
+        val hourString = when (dateHours.toString().length == 1) {
+            true -> "0$dateHours"
+            false -> "$dateHours"
+        }
+        val minuteString = when (dateMinutes.toString().length == 1) {
+            true -> "0$dateMinutes"
+            false -> "$dateMinutes"
+        }
+        return String.format("%s:%s", hourString, minuteString)
     }
 
     class TaskViewHolder(val binding: LiTaskItemBinding) : RecyclerView.ViewHolder(binding.root)

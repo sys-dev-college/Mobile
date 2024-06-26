@@ -46,7 +46,7 @@ enum class RoleName {
     companion object {
         fun byName(name: String): RoleName {
             return when (name) {
-                "trainer" -> TRAINER
+                "TRAINER" -> TRAINER
                 else -> USER
             }
         }

@@ -8,10 +8,13 @@ import android.os.Handler
 import android.os.Looper
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import com.example.diploma.databinding.ActivityMainBinding
 import com.example.diploma.splash_screen.SplashFragment
 import com.example.diploma.start_screen.ui.MainStartFragment
+import com.example.diploma.trainer_part.check_trainer_calendar.CheckTrainerCalendarFragment
+import com.example.diploma.trainer_part.users_list_screen.UsersListFragment
 import com.example.diploma.user_chat.FragmentUserChat
 import com.example.diploma.user_profile.FragmentUserProfile
 import com.example.diploma.user_screen.UserScreenFragment
@@ -53,7 +56,7 @@ class MainActivity : AppCompatActivity() {
             val userRole = RoleName.byName(prefs.getString(USER_ROLE, "") ?: "")
             when (it.itemId) {
                 R.id.user_calendar -> replaceUserFragment(choseCalendar(userRole))
-                R.id.user_chat -> replaceUserFragment(FragmentUserChat())
+                R.id.user_chat -> replaceUserFragment(chooseMiddleItem(userRole))
                 else -> replaceUserFragment(FragmentUserProfile())
             }
             true
@@ -70,8 +73,31 @@ class MainActivity : AppCompatActivity() {
     private fun choseCalendar(userRole: RoleName): Fragment =
         when (userRole) {
             RoleName.USER -> UserScreenFragment()
-            RoleName.TRAINER -> UserScreenFragment()
+            RoleName.TRAINER -> CheckTrainerCalendarFragment()
         }
+
+    private fun chooseMiddleItem(userRole: RoleName): Fragment {
+        return when (userRole) {
+            RoleName.USER -> FragmentUserChat()
+            RoleName.TRAINER -> UsersListFragment()
+        }
+    }
+
+    fun makeMiddleItem() {
+        val userRole = RoleName.byName(prefs.getString(USER_ROLE, "") ?: "")
+        val menuItem = binding.bottomNavigationView.menu.getItem(1)
+        when (userRole) {
+            RoleName.USER -> {
+                menuItem.title = "Чат"
+                menuItem.icon = ResourcesCompat.getDrawable(resources, R.drawable.ic_chat, null)
+            }
+
+            RoleName.TRAINER -> {
+                menuItem.title = "Клиенты"
+                menuItem.icon = ResourcesCompat.getDrawable(resources, R.drawable.ic_clients, null)
+            }
+        }
+    }
 
     fun makeNavigationVisible() {
         binding.bottomNavigationView.visibility = View.VISIBLE

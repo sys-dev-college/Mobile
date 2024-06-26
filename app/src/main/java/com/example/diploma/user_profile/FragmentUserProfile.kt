@@ -8,6 +8,8 @@ import com.example.diploma.R
 import com.example.diploma.base.BaseFragment
 import com.example.diploma.databinding.FragmentUserProfileBinding
 import com.example.diploma.start_screen.ui.MainStartFragment
+import com.example.diploma.user_screen.retrofit.RetrofitClient
+import kotlinx.coroutines.launch
 
 class FragmentUserProfile : BaseFragment() {
 
@@ -24,6 +26,13 @@ class FragmentUserProfile : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        launch {
+            val me = RetrofitClient.getMe(userToken)
+            binding.fragmentUserProfileTxt.text =
+                String.format("%s %s", me?.firstName.orEmpty(), me?.lastName.orEmpty())
+        }
+
         binding.fragmentUserProfileBtnReset.setOnClickListener {
             clearPrefs()
             val transaction = parentFragmentManager.beginTransaction()

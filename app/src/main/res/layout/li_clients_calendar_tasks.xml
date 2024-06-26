@@ -25,8 +25,9 @@
         android:paddingVertical="8dp"
         app:layout_constraintEnd_toStartOf="@id/li_clients_calendar_tasks_item_text_time"
         app:layout_constraintHorizontal_chainStyle="spread"
-        app:layout_constraintStart_toEndOf="@id/li_clients_calendar_tasks_item_checkbox"
+        app:layout_constraintStart_toStartOf="@id/li_clients_calendar_tasks_item_background"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         tools:text="eqweqasdasdasdasdasdasdasdasdwe" />
 
     <TextView
@@ -41,14 +42,7 @@
         app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintStart_toEndOf="@id/li_clients_calendar_tasks_item_text"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         tools:text="qweqweasdasdasdasdasdqwe" />
 
-    <CheckBox
-        android:id="@+id/li_clients_calendar_tasks_item_checkbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
-        app:layout_constraintBottom_toBottomOf="@id/li_clients_calendar_tasks_item_text"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/li_clients_calendar_tasks_item_text" />
 </androidx.constraintlayout.widget.ConstraintLayout>

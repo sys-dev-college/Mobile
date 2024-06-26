@@ -62,7 +62,7 @@ open class BaseFragment : Fragment(), CoroutineScope by MainScope() {
     }
 
     fun saveRole(role: String) {
-        prefs.edit().putString(USER_ROLE, id).apply()
+        prefs.edit().putString(USER_ROLE, role).apply()
     }
 
     fun saveCalendarDate(date: Long) {

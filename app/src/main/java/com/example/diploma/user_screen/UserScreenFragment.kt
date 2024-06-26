@@ -44,7 +44,7 @@ class UserScreenFragment : BaseFragment(), TasksAdapter.OnClickListener {
         binding.fragmentUserScreenCalendar.setOnDateChangeListener { _, year, month, dayOfMonth ->
             launch {
                 adapter.items = emptyList()
-                getTasks(
+                adapter.items = getTasks(
                     year = year,
                     month = month + 1,
                     dayOfMonth = dayOfMonth

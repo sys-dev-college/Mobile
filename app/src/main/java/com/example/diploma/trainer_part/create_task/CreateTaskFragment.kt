@@ -23,8 +23,10 @@ class CreateTaskFragment : BottomSheetDialogFragment() {
         const val USER_TOKEN = "USER_TOKEN"
         const val CLIENT_ID = "CLIENT_ID"
         const val CARD_DATE = "CARD_DATE"
+        const val SELECTED_DATE = "SELECTED_DATE"
+
         private const val PATTERN = "HH:mm"
-        const val PATTERN_NET = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS"
+        private const val PATTERN_NET = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS"
     }
 
 
@@ -34,6 +36,7 @@ class CreateTaskFragment : BottomSheetDialogFragment() {
     private var clientId: String = ""
     private var scheduled: String = ""
     private var title: String = ""
+    private var selectedDate = Date()
     private var type: Int = 0
 
     override fun onCreateView(
@@ -45,13 +48,12 @@ class CreateTaskFragment : BottomSheetDialogFragment() {
         clientId = arguments?.getString(CLIENT_ID).orEmpty()
         userToken = arguments?.getString(USER_TOKEN).orEmpty()
         cardDate = arguments?.getString(CARD_DATE).orEmpty()
+        selectedDate = Date(arguments?.getLong(SELECTED_DATE) ?: 0L)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val saveDate = cardDate
 
         binding.fragmentAddTaskEtName.addTextChangedListener {
             title = it.toString()
@@ -127,10 +129,10 @@ class CreateTaskFragment : BottomSheetDialogFragment() {
             } catch (e: ParseException) {
                 Date()
             }
-        date.year = calendar.get(Calendar.YEAR) - 1900
-        date.month = calendar.get(Calendar.MONTH)
-        date.date = calendar.get(Calendar.DATE)
+        selectedDate.hours = hour
+        selectedDate.minutes = minute
+        selectedDate.month -= 1
         val newSdf = SimpleDateFormat(PATTERN_NET, Locale.getDefault())
-        return newSdf.format(date)
+        return newSdf.format(selectedDate)
     }
 }

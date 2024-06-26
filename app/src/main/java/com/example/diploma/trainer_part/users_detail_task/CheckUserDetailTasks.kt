@@ -84,7 +84,7 @@ class CheckUserDetailTasks : BaseFragment(), UserDetailTasksAdapter.OnCheckBoxCl
     }
 
     private fun makeTime(timeString: String?): String {
-        val sdf = SimpleDateFormat(CheckUserDetailTasks.PATTERN, Locale.getDefault())
+        val sdf = SimpleDateFormat(PATTERN, Locale.getDefault())
         val date =
             try {
                 timeString?.let { dateString ->

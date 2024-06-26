@@ -50,5 +50,7 @@
         android:layout_marginStart="28dp"
         app:layout_constraintBottom_toBottomOf="@id/li_task_detail_item_text"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/li_task_detail_item_text" />
+        app:layout_constraintTop_toTopOf="@id/li_task_detail_item_text"
+
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>

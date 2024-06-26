@@ -5,32 +5,33 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.diploma.databinding.LiCheckTrainerCalendarBinding
 
-class CheckTrainerCalendarAdapter (private var itemList: List<String>): RecyclerView.Adapter<CheckTrainerCalendarAdapter.CheckTrainerCalendarViewHolder>() {
+class CheckTrainerCalendarAdapter :
+    RecyclerView.Adapter<CheckTrainerCalendarAdapter.CheckTrainerCalendarViewHolder>() {
 
-        class CheckTrainerCalendarViewHolder(val binding: LiCheckTrainerCalendarBinding) :
-        RecyclerView.ViewHolder(binding.root){
-        fun bind(text: String) {
-            binding.liCheckTrainerCalendarText.text = text
-        }
+    var items: List<String> = emptyList()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
         }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CheckTrainerCalendarAdapter.CheckTrainerCalendarViewHolder {
+    override fun getItemCount() = items.size
+
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): CheckTrainerCalendarViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = LiCheckTrainerCalendarBinding.inflate(inflater, parent, false)
-        return CheckTrainerCalendarAdapter.CheckTrainerCalendarViewHolder(binding)
+        return CheckTrainerCalendarViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: CheckTrainerCalendarViewHolder, position: Int) {
-        holder.bind(itemList[position])
+        val item = items[position]
+        with(holder.binding) {
+            liCheckTrainerCalendarText.text = item
+        }
     }
 
-    override fun getItemCount(): Int {
-        return itemList.size
-    }
-
-    fun updateItems(newItems: List<String>) {
-        itemList = newItems
-        notifyDataSetChanged()
-    }
-
+    class CheckTrainerCalendarViewHolder(val binding: LiCheckTrainerCalendarBinding) :
+        RecyclerView.ViewHolder(binding.root)
 }

@@ -18,6 +18,7 @@ import com.example.diploma.user_screen.model.UserCredResponse
 import com.example.diploma.user_screen.model.me.RoleName
 import com.example.diploma.user_screen.retrofit.RetrofitClient
 import kotlinx.coroutines.launch
+import java.util.Locale
 
 class AuthorizationFragment : BaseFragment() {
 
@@ -115,7 +116,7 @@ class AuthorizationFragment : BaseFragment() {
             saveUserEmail(it.user?.email.orEmpty())
             saveTelegramUrl(it.user?.telegramUrl.orEmpty())
 
-            val role = RoleName.byName(it.role?.name.orEmpty())
+            val role = RoleName.byName(it.role?.name.orEmpty().uppercase())
             saveRole(role.name)
 
             navigateTo(

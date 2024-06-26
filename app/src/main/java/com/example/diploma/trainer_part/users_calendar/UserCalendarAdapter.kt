@@ -4,7 +4,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.diploma.databinding.LiClientsCalendarTasksBinding
+import com.example.diploma.trainer_part.users_detail_task.CheckUserDetailTasks.Companion.PATTERN
 import com.example.diploma.user_screen.model.TaskListResponse
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class UserCalendarAdapter : RecyclerView.Adapter<UserCalendarAdapter.TaskUserCalendarViewHolder>() {
 
@@ -29,16 +34,30 @@ class UserCalendarAdapter : RecyclerView.Adapter<UserCalendarAdapter.TaskUserCal
         val item = items[position]
         with(holder.binding) {
             liClientsCalendarTasksItemText.text = item.title
-            liClientsCalendarTasksItemText.setOnClickListener {
+            liClientsCalendarTasksItemTextTime.text = makeTime(item.scheduled)
+            root.setOnClickListener {
                 listener?.onClick(item)
             }
-            liClientsCalendarTasksItemText.setOnLongClickListener {
+            root.setOnLongClickListener {
                 longClickListener?.onLongClick(item)
                 removeItem(item)
                 return@setOnLongClickListener true
             }
         }
 
+    }
+
+    private fun makeTime(timeString: String?): String {
+        val sdf = SimpleDateFormat(PATTERN, Locale.getDefault())
+        val date =
+            try {
+                timeString?.let { dateString ->
+                    sdf.parse(dateString)
+                }
+            } catch (e: ParseException) {
+                Date()
+            }
+        return String.format("%s:%s", date?.hours, date?.minutes)
     }
 
     fun removeItem(item: TaskListResponse) {

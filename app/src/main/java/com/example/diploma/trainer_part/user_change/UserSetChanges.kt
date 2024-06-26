@@ -21,7 +21,8 @@ class UserSetChanges : BaseFragment() {
     }
 
     private lateinit var binding: FragmentClientsDetailBinding
-    private var args: UserData?=null
+    private var args: UserData? = null
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -35,7 +36,8 @@ class UserSetChanges : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.fragmentClientsDetailBtnChat.setOnClickListener{
+        binding.fragmentClientsDetailClientname.text = args?.name.orEmpty()
+        binding.fragmentClientsDetailBtnChat.setOnClickListener {
             val telegram = Intent(Intent.ACTION_VIEW, Uri.parse(args?.telegramUrl))
             startActivity(telegram)
         }
@@ -44,10 +46,6 @@ class UserSetChanges : BaseFragment() {
             val fragment = CheckUserCalendar()
             fragment.arguments = bundleOf(Pair(USER_ID, args?.id.orEmpty()))
             navigateTo(fragment)
-        }
-
-        binding.fragmentClientsDetailBtnChecking.setOnClickListener {
-            navigateTo(CheckTrainerCalendarFragment())
         }
     }
 }

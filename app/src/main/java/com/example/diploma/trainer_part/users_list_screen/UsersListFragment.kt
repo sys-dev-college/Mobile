@@ -29,6 +29,7 @@ class UsersListFragment : BaseFragment(), UsersListAdapter.OnButtonClick {
         adapter.onCLick = this
         binding.fragmentUsersListRv.adapter = adapter
         (requireActivity() as MainActivity).makeNavigationVisible()
+        (requireActivity() as MainActivity).makeMiddleItem()
         return binding.root
     }
 
