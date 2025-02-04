@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="TextStandartSettings" parent="Widget.AppCompat.TextView">
+        <item name="android:fontFamily">@font/rubik_regular</item>
+        <item name="android:textSize">25sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="RegEditTestHint" parent="Widget.Material3.TextInputEditText.FilledBox">
+        <item name="android:fontFamily">@font/rubik_regular</item>
+        <item name="android:textColor">#222222</item>
+
+    </style>
+    
+</resources>

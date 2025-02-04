@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/fragment_add_task_tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Название"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/fragment_add_task_et_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="12dp"
+        android:hint="Введите название"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fragment_add_task_tv_name" />
+
+    <TextView
+        android:id="@+id/fragment_add_task_tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Время"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fragment_add_task_et_name" />
+
+
+    <TextView
+        android:id="@+id/fragment_add_task_et_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="12dp"
+        android:hint="Введите время"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fragment_add_task_tv_time" />
+
+    <TextView
+        android:id="@+id/fragment_add_task_checkbox_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Тренировка"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/fragment_add_task_checkbox"
+        app:layout_constraintBottom_toBottomOf="@id/fragment_add_task_checkbox"
+        app:layout_constraintTop_toTopOf="@id/fragment_add_task_checkbox" />
+
+    <CheckBox
+        android:id="@+id/fragment_add_task_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/fragment_add_task_checkbox_text"
+        app:layout_constraintTop_toBottomOf="@id/fragment_add_task_et_time"
+        android:layout_marginTop="12dp"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/fragment_add_task_btn_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="@color/variant"
+        android:text="Отменить"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toStartOf="@id/fragment_add_task_btn_accept"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fragment_add_task_checkbox" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/fragment_add_task_btn_accept"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:backgroundTint="@color/variant"
+        android:text="Принять"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/fragment_add_task_btn_cancel"
+        app:layout_constraintTop_toTopOf="@id/fragment_add_task_btn_cancel" />
+
+    <ProgressBar
+        android:id="@+id/fragment_add_task_progress"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/fragment_add_task_btn_accept"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/fragment_add_task_btn_accept"
+        app:layout_constraintTop_toTopOf="@id/fragment_add_task_btn_accept" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

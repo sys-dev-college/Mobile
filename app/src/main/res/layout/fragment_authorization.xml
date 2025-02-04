@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/ic_start_background">
+
+    <LinearLayout
+        android:id="@+id/linlay_greeting"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
+        android:background="@drawable/shape_linearlayout_start_fragment"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="32dp"
+            android:fontFamily="@font/rubik_regular"
+            android:text="@string/auth_title"
+            android:textColor="@color/black"
+            android:textSize="30sp" />
+
+        <EditText
+            android:id="@+id/fragment_authorization_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="70dp"
+            android:background="@drawable/shape_edit_text_startscreen"
+            android:gravity="center"
+            android:maxLines="4"
+            android:hint="@string/fragmant_authorization_email_text"
+            android:inputType="textMultiLine"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="12dp"
+            android:textColorHint="@color/hintColor"
+            tools:ignore="Autofill,TextFields" />
+
+        <EditText
+            android:id="@+id/fragment_authorization_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/shape_edit_text_startscreen"
+            android:gravity="center"
+            android:maxLines="4"
+            android:hint="@string/fragmant_authorization_password_text"
+            android:inputType="textPassword"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="12dp"
+            android:textColorHint="@color/hintColor"
+            tools:ignore="Autofill,TextFields" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_continue"
+            style="@style/TextStandartSettings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="70dp"
+            android:layout_marginBottom="16dp"
+            android:backgroundTint="@color/white"
+            android:text="@string/greeting_cont_but"
+            android:textColorHint="@color/hintColor" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

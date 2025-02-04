@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <ImageView
+    android:id="@+id/about_logo"
+    android:layout_width="100dp"
+    android:layout_height="100dp"
+    android:src="@drawable/group_4"
+    android:layout_marginTop="250dp"
+    android:layout_gravity="center"
+    />
+
+    <TextView
+        android:id="@+id/about_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:text="ItFit's"
+        android:layout_marginTop="40dp"
+        android:layout_marginStart="175dp"
+        tools:ignore="HardcodedText" />
+
+    <TextView
+        android:id="@+id/about_version"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:text="Ver. 3.5.2"
+        android:layout_marginTop="40dp"
+        android:layout_marginStart="160dp"
+        tools:ignore="HardcodedText" />
+
+    <TextView
+        android:id="@+id/about_whom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:textColor="@color/black"
+        android:text="Made by: It-Fiters"
+        android:layout_marginTop="40dp"
+        android:layout_marginStart="120dp"
+        tools:ignore="HardcodedText" />
+
+
+</LinearLayout>
